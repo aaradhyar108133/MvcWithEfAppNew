@@ -1,0 +1,70 @@
+@model MvcWithEfApp.Models.MainModel
+
+<h2>@Context.Session.GetString("CCno") Records</h2>
+@{
+   
+}
+
+
+<p>Welcome @Context.Session.GetString("Account") (CCno: @Context.Session.GetString("CCno"))</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>AID</th>
+            <th>ACCOUNT</th>
+            <th>ACCTYPE</th>
+            <th>ADD1</th>
+            <th>ADD2</th>
+            <th>ADD3</th>
+            <th>TELEPHONE</th>
+            <th>REF</th>
+            <th>CCno</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.masterData)
+        {
+            <tr>
+                <td>@item.AID</td>
+                <td>@item.ACCOUNT</td>
+                <td>@item.ACCTYPE</td>
+                <td>@item.ADD1</td>
+                <td>@item.ADD2</td>
+                <td>@item.ADD3</td>
+                <td>@item.TELEPHONE</td>
+                <td>@item.REF</td>
+                <td>@item.CCno</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>LCARDTEMPDET Records for @Context.Session.GetString("CCno")</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>DLCARDID</th>
+            <th>LCARDDESC</th>
+            <th>TOTALAMT</th>
+            <th>ADDAMT</th>
+            <th>SALEAMT</th>
+            <th>BILLID</th>
+            <th>CDATE</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lCardTempdetData)
+        {
+            <tr>
+                <td>@item.DLCARDID</td>
+                <td>@item.LCARDDESC</td>
+                <td>@item.TOTALAMT</td>
+                <td>@item.ADDAMT</td>
+                <td>@item.SALEAMT</td>
+                <td>@item.BILLID</td>
+                <td>@item.CDATE</td>
+            </tr>
+        }
+    </tbody>
+</table>

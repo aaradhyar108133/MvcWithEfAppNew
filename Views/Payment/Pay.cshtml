@@ -1,0 +1,24 @@
+﻿@model MvcWithEfApp.Models.PayUModel
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { action = ViewBag.PayUUrl }))
+{
+    @Html.Hidden("key", Model.Key)
+    @Html.Hidden("txnid", Model.TxnId)
+    @Html.Hidden("amount", Model.Amount)
+    @Html.Hidden("productinfo", Model.ProductInfo)
+    @Html.Hidden("firstname", Model.FirstName)
+    @Html.Hidden("email", Model.Email)
+    @Html.Hidden("phone", Model.Phone)
+    @Html.Hidden("surl", Model.Surl)
+    @Html.Hidden("furl", Model.Furl)
+    @Html.Hidden("hash", Model.Hash)
+
+    @Html.Hidden("udf1", Model.Udf1)
+    @Html.Hidden("udf2", Model.Udf2)
+    @Html.Hidden("udf3", Model.Udf3)
+    @Html.Hidden("udf4", Model.Udf4)
+    @Html.Hidden("udf5", Model.Udf5)
+
+
+    <input type="submit" value="Pay Now" />
+}
