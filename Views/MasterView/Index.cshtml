@@ -9,35 +9,50 @@
 <p>Welcome @Context.Session.GetString("Account") (CCno: @Context.Session.GetString("CCno"))</p>
 
 <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>AID</th>
-            <th>ACCOUNT</th>
-            <th>ACCTYPE</th>
-            <th>ADD1</th>
-            <th>ADD2</th>
-            <th>ADD3</th>
-            <th>TELEPHONE</th>
-            <th>REF</th>
-            <th>CCno</th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var item in Model.masterData)
         {
-            <tr>
-                <td>@item.AID</td>
-                <td>@item.ACCOUNT</td>
-                <td>@item.ACCTYPE</td>
-                <td>@item.ADD1</td>
-                <td>@item.ADD2</td>
-                <td>@item.ADD3</td>
-                <td>@item.TELEPHONE</td>
-                <td>@item.REF</td>
-                <td>@item.CCno</td>
-            </tr>
+            <div class="col">
+                <div class="card shadow-sm h-100 border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
+                        <p class="card-text">
+                            <strong>Type:</strong> @item.ACCTYPE <br />
+                            <strong>Address:</strong> @item.ADD1, @item.ADD2, @item.ADD3 <br />
+                            <strong>Phone:</strong> @item.TELEPHONE <br />
+                            <strong>REF:</strong> @item.REF <br />
+                            <strong>AID:</strong> @item.AID
+                        </p>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
+    </div>
+
+    <div class="accordion" id="userAccordion">
+        @for (int i = 0; i < Model.masterData.Count; i++)
+        {
+            var item = Model.masterData[i];
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-@i">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@i">
+                        @item.ACCOUNT (@item.CCno)
+                    </button>
+                </h2>
+                <div id="collapse-@i" class="accordion-collapse collapse" data-bs-parent="#userAccordion">
+                    <div class="accordion-body">
+                        <p><strong>AID:</strong> @item.AID</p>
+                        <p><strong>ACCTYPE:</strong> @item.ACCTYPE</p>
+                        <p><strong>Address:</strong> @item.ADD1, @item.ADD2, @item.ADD3</p>
+                        <p><strong>Telephone:</strong> @item.TELEPHONE</p>
+                        <p><strong>REF:</strong> @item.REF</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
 </table>
 <p>LCARDTEMPDET Records for @Context.Session.GetString("CCno")</p>
 

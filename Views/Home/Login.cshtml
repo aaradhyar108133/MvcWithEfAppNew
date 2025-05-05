@@ -4,44 +4,27 @@
 
 <div class="container">
     <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
-            <div class="card shadow rounded-4 border-0">
-                <div class="card-body p-4">
-                    <h3 class="text-center mb-4">User Login</h3>
+        <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+            <div class="login-glass text-center">
+                <h3 class="mb-3"><span class="title-highlight">Let's</span> Login!</h3>
 
-                    <form method="post">
-                        <div class="mb-3">
-                            <label for="ccno" class="form-label">CCno (Username)</label>
-                            <input type="text" class="form-control" id="ccno" name="ccno" required />
-                        </div>
+                <form method="post">
+                    <div class="mb-3 text-start">
+                        <label for="ccno" class="form-label login-label">CCno</label>
+                        <input type="text" class="form-control login-input" id="ccno" name="ccno" placeholder="Enter your CCno" required>
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label for="refPassword" class="form-label login-label">REF Password</label>
+                        <input type="password" class="form-control login-input" id="refPassword" name="refPassword" placeholder="Enter your REF" required>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="refPassword" class="form-label">REF (Password)</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="refPassword" name="refPassword" required />
-                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
-                            </div>
-                        </div>
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger py-1">@ViewBag.Error</div>
+                    }
 
-                        <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
-                            <label class="form-check-label" for="rememberMe">Remember me</label>
-                        </div>
-
-                        @if (ViewBag.Error != null)
-                        {
-                            <div class="alert alert-danger">@ViewBag.Error</div>
-                        }
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </div>
-                    </form>
-
-                    <p class="text-muted text-center mt-4" style="font-size: 0.85rem;">
-                        &copy; @DateTime.Now.Year - Secure Portal
-                    </p>
-                </div>
+                    <button type="submit" class="btn btn-orange w-100 text-white fw-bold">LOGIN</button>
+                </form>
             </div>
         </div>
     </div>

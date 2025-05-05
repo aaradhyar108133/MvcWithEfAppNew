@@ -1,0 +1,48 @@
+body {
+    background-image: url('/images/gateway.jpg');
+    background-size: cover;
+    
+    font-family: 'Segoe UI', sans-serif;
+}
+.login-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    color: #fff;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    margin-left: -373px;
+    margin-right: 355px;
+    margin-top: -123px;
+}
+
+.login-label {
+    font-weight: 600;
+}
+
+.login-input {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+}
+
+    .login-input::placeholder {
+        color: #ccc;
+    }
+
+.btn-orange {
+    background-color: #e8b008;
+    border: none;
+}
+
+    .btn-orange:hover {
+        background-color: #b38808;
+    }
+
+.title-highlight {
+    color: #e8b008;
+    font-weight: bold;
+}
+.table-bordered{
+    color:aqua;
+}

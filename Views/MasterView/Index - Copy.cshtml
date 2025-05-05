@@ -8,36 +8,21 @@
 
 <p>Welcome @Context.Session.GetString("Account") (CCno: @Context.Session.GetString("CCno"))</p>
 
-<table class="table table-bordered">
-    <thead>
+<table class="table-bordered">
+    <thead style="background-color:aqua">
         <tr>
             <th>AID</th>
             <th>ACCOUNT</th>
             <th>ACCTYPE</th>
             <th>ADD1</th>
-            <th>ADD2</th>
+            <th>ADD2</th>   
             <th>ADD3</th>
             <th>TELEPHONE</th>
             <th>REF</th>
             <th>CCno</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model.masterData)
-        {
-            <tr>
-                <td>@item.AID</td>
-                <td>@item.ACCOUNT</td>
-                <td>@item.ACCTYPE</td>
-                <td>@item.ADD1</td>
-                <td>@item.ADD2</td>
-                <td>@item.ADD3</td>
-                <td>@item.TELEPHONE</td>
-                <td>@item.REF</td>
-                <td>@item.CCno</td>
-            </tr>
-        }
-    </tbody>
+  
 </table>
 <p>LCARDTEMPDET Records for @Context.Session.GetString("CCno")</p>
 
