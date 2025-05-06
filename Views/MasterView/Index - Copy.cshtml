@@ -9,7 +9,7 @@
 <p>Welcome @Context.Session.GetString("Account") (CCno: @Context.Session.GetString("CCno"))</p>
 
 <table class="table-bordered">
-    <thead style="background-color:aqua">
+    <thead>
         <tr>
             <th>AID</th>
             <th>ACCOUNT</th>
@@ -25,19 +25,7 @@
   
 </table>
 <p>LCARDTEMPDET Records for @Context.Session.GetString("CCno")</p>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>DLCARDID</th>
-            <th>LCARDDESC</th>
-            <th>TOTALAMT</th>
-            <th>ADDAMT</th>
-            <th>SALEAMT</th>
-            <th>BILLID</th>
-            <th>CDATE</th>
-        </tr>
-    </thead>
+<table>
     <tbody>
         @foreach (var item in Model.lCardTempdetData)
         {

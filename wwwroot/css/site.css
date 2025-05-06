@@ -1,3 +1,7 @@
+*{
+    margin:0;
+    padding:0;  
+}
 html {
   font-size: 14px;
 }
@@ -17,9 +21,9 @@ html {
   min-height: 100%;
 }
 
-body {
+/*body {
   margin-bottom: 60px;
-}
+}*/
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
@@ -28,4 +32,72 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* General page styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000;
+   /* padding: 20px;*/
+    color: #343a40;
+}
+
+h2, p {
+    margin-bottom: 20px;
+}
+
+/* Card grid enhancements */
+.card {
+    background-color: #faf8f800;
+    
+}
+
+/* Title color to match the orange/yellow in screenshot */
+.card-title {
+    color: #f39c12; /* vibrant amber-orange */
+    font-weight: bold;
+}
+.card-body {
+    flex: 1 1 auto;
+    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+    color: var(--bs-card-color);
+    backdrop-filter: blur(191px);
+    box-shadow: -1px 11px 20px 5px rgba(0, 0, 0, 0.37);
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #495057;
+}
+
+/* Table styling */
+/* Wrapper around the table to apply blur */
+.table-container {
+   padding: 15px;
+}
+
+/* Optional: make table itself transparent inside the container */
+.table {
+    backdrop-filter: blur(191px);
+    box-shadow: -13px 13px 20px 4px rgba(0, 0, 0, 0.37);
+    margin-top: 40px;
+}
+
+    .table th,
+    .table td {
+        background-color: rgba(255, 255, 255, 0.05); /* subtle glass-like cell background */
+        color: #000;
+    }
+
+
+
+/* Responsive behavior for cards on small screens */
+@media (max-width: 576px) {
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-text {
+        font-size: 0.85rem;
+    }
 }

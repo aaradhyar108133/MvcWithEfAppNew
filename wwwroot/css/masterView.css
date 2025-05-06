@@ -1,3 +1,7 @@
+*{
+    margin:0;
+    padding:0;
+}
 body {
     background-image: url('/images/gateway.jpg');
     background-size: cover;
@@ -11,9 +15,7 @@ body {
     padding: 2rem;
     color: #fff;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    margin-left: -373px;
-    margin-right: 355px;
-    margin-top: -123px;
+   
 }
 
 .login-label {
@@ -43,6 +45,53 @@ body {
     color: #e8b008;
     font-weight: bold;
 }
-.table-bordered{
-    color:aqua;
+.login-container {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10rem;
+}
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    .login-container {
+        max-width: 500px;
+    }
+}
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    .login-container {
+        max-width: 500px;
+    }
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .login-container {
+        max-width: 500px;
+        float: left;
+        margin-top: 8rem;
+    }
+}
+
+/*// X-Large devices (large desktops, 1200px and up)
+*/@media (min-width: 1200px) {
+    .login-container {
+        max-width: 500px;
+        float: left;
+        margin-top: 8rem;
+    }
+}
+
+/*// XX-Large devices (larger desktops, 1400px and up)*/
+@media (min-width: 1400px) {
+    .login-container {
+        max-width: 500px;
+        float: left;
+        margin-top: 8rem;
+    }
 }
