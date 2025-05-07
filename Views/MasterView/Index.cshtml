@@ -1,55 +1,58 @@
 @model MvcWithEfApp.Models.MainModel
 @{
-   
-}
-<div style="margin-top: 3rem;">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach (var item in Model.masterData)
-        {
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
-                        <p class="card-text">
-                            <strong>Type:</strong> @item.ACCTYPE <br />
-                            <strong>Address:</strong> @item.ADD1, @item.ADD2, @item.ADD3 <br />
-                            <strong>Phone:</strong> @item.TELEPHONE <br />
-                            <strong>REF:</strong> @item.REF <br />
-                            <strong>AID:</strong> @item.AID
-                        </p>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-    <div class="table-container">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>DLCARDID</th>
-                    <th>LCARDDESC</th>
-                    <th>TOTALAMT</th>
-                    <th>ADDAMT</th>
-                    <th>SALEAMT</th>
-                    <th>BILLID</th>
-                    <th>CDATE</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.lCardTempdetData)
-                {
-                    <tr>
-                        <td>@item.DLCARDID</td>
-                        <td>@item.LCARDDESC</td>
-                        <td>@item.TOTALAMT</td>
-                        <td>@item.ADDAMT</td>
-                        <td>@item.SALEAMT</td>
-                        <td>@item.BILLID</td>
-                        <td>@item.CDATE</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
 
+}
+<div class="container">
+    <main role="main" class="">
+        <div style="margin-top: 3rem;>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in Model.masterData)
+            {
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
+                                <p class="card-text">
+                                    <strong>Type :</strong> @item.ACCTYPE <br />
+                                    <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3 <br />
+                                    <strong>Phone :</strong> @item.TELEPHONE <br />
+                                    <strong>REF :</strong> @item.REF <br />
+                                    <strong>AID :</strong> @item.AID
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+            }
+            </div>
+            <div class="table-container">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>DLCARDID</th>
+                            <th>LCARDDESC</th>
+                            <th>TOTALAMT</th>
+                            <th>ADDAMT</th>
+                            <th>SALEAMT</th>
+                            <th>BILLID</th>
+                            <th>CDATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.lCardTempdetData)
+                    {
+                            <tr>
+                                <td>@item.DLCARDID</td>
+                                <td>@item.LCARDDESC</td>
+                                <td>@item.TOTALAMT</td>
+                                <td>@item.ADDAMT</td>
+                                <td>@item.SALEAMT</td>
+                                <td>@item.BILLID</td>
+                                <td>@item.CDATE</td>
+                            </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>

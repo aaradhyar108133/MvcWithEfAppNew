@@ -2,6 +2,7 @@
     margin:0;
     padding:0;  
 }
+
 html {
   font-size: 14px;
 }
@@ -21,9 +22,6 @@ html {
   min-height: 100%;
 }
 
-/*body {
-  margin-bottom: 60px;
-}*/
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
@@ -35,69 +33,96 @@ html {
 }
 
 /* General page styles */
+/* Global reset and font */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000;
-   /* padding: 20px;*/
-    color: #343a40;
+    /*background: linear-gradient(135deg, #ff9966, #66ccff, #9966cc);*/
+    background-size: cover;
+    color: #ffffff;
+    background: linear-gradient(135deg, #f4b99b, #5cc1f4, #b489df);
 }
 
-h2, p {
-    margin-bottom: 20px;
-}
-
-/* Card grid enhancements */
+/* Card Style for Customer Info */
 .card {
-    background-color: #faf8f800;
-    
-}
-
-/* Title color to match the orange/yellow in screenshot */
-.card-title {
-    color: #f39c12; /* vibrant amber-orange */
-    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 10px;
+    margin-bottom: -10px;
+    margin-top:-38px;
+    width: 30%;
+    overflow: hidden;
 }
 .card-body {
-    flex: 1 1 auto;
-    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
-    color: var(--bs-card-color);
-    backdrop-filter: blur(191px);
-    box-shadow: -1px 11px 20px 5px rgba(0, 0, 0, 0.37);
+    padding: 1.75rem;
 }
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    font-size: 1.2rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    color: #e8b008;
+}
+
+    .card-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(90deg, #1a73e8, rgba(26, 115, 232, 0.3));
+    }
 
 .card-text {
     font-size: 0.95rem;
-    color: #495057;
+    color:white;
 }
 
-/* Table styling */
-/* Wrapper around the table to apply blur */
+    .card-text strong {
+        font-weight: 600;
+        min-width: 80px;
+        display: inline-block;
+        color:white;
+    }
+
+
+
+/* Table Style */
 .table-container {
-   padding: 15px;
+    margin: 30px 0px 0px 0px;
+    overflow-x: auto;
+    box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
+    height:auto;
 }
 
-/* Optional: make table itself transparent inside the container */
-.table {
-    backdrop-filter: blur(191px);
-    box-shadow: -13px 13px 20px 4px rgba(0, 0, 0, 0.37);
-    margin-top: 40px;
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-    .table th,
-    .table td {
-        background-color: rgba(255, 255, 255, 0.05); /* subtle glass-like cell background */
-        color: #000;
+    .styled-table th,
+    .styled-table td {
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-
-
-/* Responsive behavior for cards on small screens */
-@media (max-width: 576px) {
-    .card-title {
-        font-size: 1rem;
+    .styled-table thead {
+        background-color: rgb(101 93 93 / 40%);
+        color: #e8b008;
     }
 
-    .card-text {
-        font-size: 0.85rem;
+    .styled-table tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05);
     }
-}
+
+    .styled-table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }

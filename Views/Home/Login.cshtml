@@ -1,34 +1,44 @@
-﻿@{
+﻿@{  
     ViewData["Title"] = "Login";
 }
+<div class=" login-background">
+    <div class="container">
+        <main role="main" class="">
+            <div class="login-background">
+                <div class="container">
+                    <div class="login-container">
+                        <div class="col-lg-12">
+                            <div class="login-glass text-center">
+                                <h3 class="mb-3"><span class="title-highlight">Let's</span> Login!</h3>
 
-<div class="container">
-    <div class="login-container">
-        <div class="col-lg-12">
-            <div class="login-glass text-center">
-                <h3 class="mb-3"><span class="title-highlight">Let's</span> Login!</h3>
+                                <form method="post">
+                                    <div class="mb-3 text-start">
+                                        <label for="ccno" class="form-label login-label">CCno</label>
+                                        <input type="text" class="form-control login-input" id="ccno" name="ccno" placeholder="Enter your CCno" required>
+                                    </div>
+                                    <div class="mb-4 text-start">
+                                        <label for="refPassword" class="form-label login-label">ADD3 Password</label>
+                                        <input type="password" class="form-control login-input" id="refPassword" name="refPassword" placeholder="Enter your REF" required>
+                                    </div>
 
-                <form method="post">
-                    <div class="mb-3 text-start">
-                        <label for="ccno" class="form-label login-label">CCno</label>
-                        <input type="text" class="form-control login-input" id="ccno" name="ccno" placeholder="Enter your CCno" required>
+                                    @if (ViewBag.Error != null)
+                                    {
+                                        <div class="py-1" style="color: red;font-weight: bold;">
+                                            @ViewBag.Error
+                                        </div>
+                                    }
+
+                                    <button type="submit" class="btn btn-orange w-100 text-white fw-bold">LOGIN</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-4 text-start">
-                        <label for="refPassword" class="form-label login-label">REF Password</label>
-                        <input type="password" class="form-control login-input" id="refPassword" name="refPassword" placeholder="Enter your REF" required>
-                    </div>
-
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger py-1">@ViewBag.Error</div>
-                    }
-
-                    <button type="submit" class="btn btn-orange w-100 text-white fw-bold">LOGIN</button>
-                </form>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 </div>
+
 
 @section Scripts {
     <script>

@@ -25,7 +25,7 @@ public class HomeController : Controller
     {
        
 
-        var user = _context.Masters.FirstOrDefault(m => m.CCno == ccno && m.REF == refPassword);
+        var user = _context.Masters.FirstOrDefault(m => m.CCno == ccno && m.ADD3 == refPassword);
 
         if (user != null)
         {
@@ -39,7 +39,7 @@ public class HomeController : Controller
         }
 
         // Invalid login
-        ViewBag.Error = "Invalid CCno or REF";
+        ViewBag.Error = "Invalid CCno or ADD3";
         return View();
     }
 }
