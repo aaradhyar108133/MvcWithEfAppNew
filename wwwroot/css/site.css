@@ -1,3 +1,8 @@
+*{
+    margin:0;
+    padding:0;  
+}
+
 html {
   font-size: 14px;
 }
@@ -17,9 +22,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
-}
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
@@ -29,3 +31,98 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* General page styles */
+/* Global reset and font */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /*background: linear-gradient(135deg, #ff9966, #66ccff, #9966cc);*/
+    background-size: cover;
+    color: #ffffff;
+    background: linear-gradient(135deg, #f4b99b, #5cc1f4, #b489df);
+}
+
+/* Card Style for Customer Info */
+.card {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 10px;
+    margin-bottom: -10px;
+    margin-top:-38px;
+    width: 30%;
+    overflow: hidden;
+}
+.card-body {
+    padding: 1.75rem;
+}
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    font-size: 1.2rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    color: #e8b008;
+}
+
+    .card-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(90deg, #1a73e8, rgba(26, 115, 232, 0.3));
+    }
+
+.card-text {
+    font-size: 0.95rem;
+    color:white;
+}
+
+    .card-text strong {
+        font-weight: 600;
+        min-width: 80px;
+        display: inline-block;
+        color:white;
+    }
+
+
+
+/* Table Style */
+.table-container {
+    margin: 30px 0px 0px 0px;
+    overflow-x: auto;
+    box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
+    height:auto;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+    .styled-table th,
+    .styled-table td {
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .styled-table thead {
+        background-color: rgb(101 93 93 / 40%);
+        color: #e8b008;
+    }
+
+    .styled-table tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
