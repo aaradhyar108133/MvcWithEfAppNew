@@ -12,16 +12,20 @@ namespace MvcWithEfApp.Data
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Master> Masters { get; set; }
+        public DbSet<Login> Masters { get; set; }
         public DbSet<LCardTempDET> LCardTempDET { get; set; }
+        public DbSet<LOYALTYCARD> LOYALTYCARD { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Master>().ToTable("MASTER", "dbo");
-            modelBuilder.Entity<Master>().HasKey(m => m.AID);
+            modelBuilder.Entity<Login>().ToTable("MASTER", "dbo");
+            modelBuilder.Entity<Login>().HasKey(m => m.AID);
 
             modelBuilder.Entity<LCardTempDET>().ToTable("LCardTempDET", "dbo");
             modelBuilder.Entity<LCardTempDET>().HasKey(m => m.DLCARDID);
+
+            modelBuilder.Entity<LOYALTYCARD>().ToTable("LOYALTYCARD", "dbo");
+            modelBuilder.Entity<LOYALTYCARD>().HasKey(m => m.LCARDID);
         }
     }
 }

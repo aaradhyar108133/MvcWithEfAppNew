@@ -1,24 +1,47 @@
-@model MvcWithEfApp.Models.MainModel
+﻿@model MvcWithEfApp.Models.MainModel
 @{
 
 }
 <div class="container">
     <main role="main" class="">
-        <div style="margin-top: 3rem;>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="card-view">
+            <div class="">
             @foreach (var item in Model.masterData)
             {
-                    <div class="col">
+                    <div class="">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
-                                <p class="card-text">
-                                    <strong>Type :</strong> @item.ACCTYPE <br />
-                                    <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3 <br />
-                                    <strong>Phone :</strong> @item.TELEPHONE <br />
-                                    <strong>REF :</strong> @item.REF <br />
-                                    <strong>AID :</strong> @item.AID
-                                </p>
+                                <div class="card-text">
+                                   <div class="card-text-div">
+                                        <strong>Type :</strong> @item.ACCTYPE 
+                                   </div>
+                                    <div class="card-text-div">
+                                        <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3 
+                                   </div>
+                                    <div class="card-text-div">
+                                        <strong>Phone :</strong> @item.TELEPHONE 
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>REF :</strong> @item.REF 
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>AID :</strong> @item.AID
+                                   </div>
+                                    
+                                </div>
+                                <div class="card-text">
+                                    <div class="card-text-div">
+                                        <strong>Amount :</strong> 5000
+                                    </div>
+                                    <div class="card-text-div" style="display:flex">
+                                        <strong>Card Number :</strong>
+                                        <input style="width: 70%;" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter 16-digit number" />
+                                    </div>
+                                    <div class="card-text-div" style="text-align: center;">
+                                       <button>Pay</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -28,31 +51,86 @@
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>DLCARDID</th>
                             <th>LCARDDESC</th>
                             <th>TOTALAMT</th>
                             <th>ADDAMT</th>
+                            <th>BALAMT</th>
                             <th>SALEAMT</th>
                             <th>BILLID</th>
-                            <th>CDATE</th>
+                            <th>DATE</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model.lCardTempdetData)
+                    @foreach (var item in Model.lCardTempdetData.Take(5))
+
                     {
                             <tr>
-                                <td>@item.DLCARDID</td>
                                 <td>@item.LCARDDESC</td>
                                 <td>@item.TOTALAMT</td>
                                 <td>@item.ADDAMT</td>
+                                <td>@item.BALAMT</td>
                                 <td>@item.SALEAMT</td>
                                 <td>@item.BILLID</td>
-                                <td>@item.CDATE</td>
+                                <td>@item.CDATE?.ToString("yyyy-MM-dd")</td>
                             </tr>
                     }
+                        <tr>
+                            <td>2635766</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td>10950</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>2025-05-09</td>
+                        </tr>
+                        <tr>
+                                <td>2635766</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td>10950</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>2025-05-09</td>
+                            </tr>
+                        <tr>
+                            <td>2635766</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td>10950</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>2025-05-09</td>
+                        </tr>
                     </tbody>
                 </table>
+                @* <button id="toggleBtn" class="toggle-btn">Show More</button> *@
             </div>
         </div>
     </main>
 </div>
+
+
+@* <!-- ✅ Add this script at the bottom -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("toggleBtn");
+        const tbody = document.getElementById("dataTableBody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        const visibleLimit = 3;
+        let expanded = false;
+
+        function updateTable() {
+            rows.forEach((row, i) => {
+                row.style.display = expanded || i < visibleLimit ? "" : "none";
+            });
+            toggleBtn.textContent = expanded ? "Show Less" : "Show More";
+        }
+
+        toggleBtn.addEventListener("click", function () {
+            expanded = !expanded;
+            updateTable();
+        });
+
+        updateTable(); // initialize
+    });
+</script> *@

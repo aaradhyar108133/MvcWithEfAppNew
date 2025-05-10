@@ -12,7 +12,7 @@ namespace MvcWithEfApp.Controllers
         {
             _context = context;
         }
-
+        [Route("CareDetails")]
         public IActionResult Index()
         { 
             //if (HttpContext.Session != null) 

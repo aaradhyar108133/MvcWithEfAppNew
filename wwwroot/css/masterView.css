@@ -5,13 +5,20 @@
 body {
     font-family: 'Segoe UI', sans-serif;
 }
+/*.container {
+    max-width: 1140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
 .login-background {
-    background-image: url('/images/gateway.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     min-height: 100vh;
+    background-size:cover;
+    background-position : center;
+    background-repeat:no-repeat;
 }
+
+
 
 .login-glass {
     background: rgba(255, 255, 255, 0.1);
@@ -49,20 +56,37 @@ body {
     color: #e8b008;
     font-weight: bold;
 }
-.login-container {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    width: 100%;
-    padding-right: calc(var(--bs-gutter-x) * .5);
-    padding-left: calc(var(--bs-gutter-x) * .5);
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 10rem;
+/*.toggle {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: right;
+    align-items: right;
 }
+.toggle-btn {
+    background: rgba(0, 0, 0, 0.2);*/ /* blue gradient matching table */
+    /*color: #fff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: background 0.3s ease;
+    margin-top: 10px;
+    backdrop-filter: blur(10px);
+}
+
+    .toggle-btn:hover {
+        background: linear-gradient(to right, #5e6c79, #a3adbb);
+        backdrop-filter: blur(10px);
+    }*/
+
 /*// Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {
     .login-container {
         max-width: 500px;
+        width: 100%;
     }
 }
 
@@ -70,6 +94,7 @@ body {
 @media (min-width: 768px) {
     .login-container {
         max-width: 500px;
+        width: 100%;
     }
 }
 
@@ -77,8 +102,7 @@ body {
 @media (min-width: 992px) {
     .login-container {
         max-width: 500px;
-        float: left;
-        margin-top: 8rem;
+        width: 100%;
     }
 }
 
@@ -86,8 +110,7 @@ body {
 */@media (min-width: 1200px) {
     .login-container {
         max-width: 500px;
-        float: left;
-        margin-top: 8rem;
+       width:100%;
     }
 }
 
@@ -95,7 +118,6 @@ body {
 @media (min-width: 1400px) {
     .login-container {
         max-width: 500px;
-        float: left;
-        margin-top: 8rem;
+        width: 100%;
     }
 }
