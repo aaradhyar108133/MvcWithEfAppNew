@@ -1,34 +1,92 @@
 ﻿@model MvcWithEfApp.Models.MainModel
 @{
-
 }
+<style>
+    .extra-col {
+        display: inline-block;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: max-width 0.4s ease, opacity 0.4s ease;
+    }
+
+    .extra-col.visible {
+        max-width: 150px;
+        opacity: 1;
+    }
+
+    .arrow-btn {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+    .toggle-container {
+        display: none;
+        text-align: right;
+    }
+
+    .scroll-hint {
+        display: none;
+        font-size: 16px;
+        color: #555;
+        text-align: right;
+        padding: 5px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    @@media (max-width: 575.98px) {
+        .toggle-container {
+            display: block;
+        }
+
+        .scroll-hint {
+            display: block;
+        }
+    }
+
+    @@media (min-width: 576px) {
+        .extra-col {
+            max-width: 150px !important;
+            opacity: 1 !important;
+        }
+    }
+</style>
+
 <div class="container">
     <main role="main" class="">
         <div class="card-view">
             <div class="">
-            @foreach (var item in Model.masterData)
-            {
+                @foreach (var item in Model.masterData)
+                {
                     <div class="">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
                                 <div class="card-text">
-                                   <div class="card-text-div">
-                                        <strong>Type :</strong> @item.ACCTYPE 
-                                   </div>
-                                    <div class="card-text-div">
-                                        <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3 
-                                   </div>
-                                    <div class="card-text-div">
-                                        <strong>Phone :</strong> @item.TELEPHONE 
+                                   x <div class="card-text-div">
+                                        <strong>Type :</strong> @item.ACCTYPE
                                     </div>
                                     <div class="card-text-div">
-                                        <strong>REF :</strong> @item.REF 
+                                        <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>Phone :</strong> @item.TELEPHONE
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>REF :</strong> @item.REF
                                     </div>
                                     <div class="card-text-div">
                                         <strong>AID :</strong> @item.AID
-                                   </div>
-                                    
+                                    </div>
                                 </div>
                                 <div class="card-text">
                                     <div class="card-text-div">
@@ -39,15 +97,36 @@
                                         <input style="width: 70%;" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter 16-digit number" />
                                     </div>
                                     <div class="card-text-div" style="text-align: center;">
-                                       <button>Pay</button>
+                                        <button>Pay</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-            }
+                }
             </div>
+
+            <!-- Toggle Button -->
+            <div class="toggle-container">
+
+    <svg id="leftArrow" class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <g stroke-linejoin="round" stroke-linecap="round" >
+            <circle r="46" cx="50" cy="50" />
+            <polyline points="60 25, 30 50, 60 75" ></polyline>
+        </g>
+    </svg>
+
+    <svg id="rightArrow" class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <g stroke-linejoin="round" stroke-linecap="round" >
+            <circle r="46" cx="50" cy="50" />
+            <polyline points="40 25, 70 50, 40 75" ></polyline>
+        </g>
+    </svg>
+
+            </div>
+
             <div class="table-container">
+                <div class="scroll-hint">&#8594; Scroll to view more</div>
                 <table class="styled-table">
                     <thead>
                         <tr>
@@ -55,82 +134,93 @@
                             <th>TOTALAMT</th>
                             <th>ADDAMT</th>
                             <th>BALAMT</th>
-                            <th>SALEAMT</th>
-                            <th>BILLID</th>
-                            <th>DATE</th>
+                            <th><span class="extra-col">SALEAMT</span></th>
+                            <th><span class="extra-col">BILLID</span></th>
+                            <th><span class="extra-col">DATE</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model.lCardTempdetData.Take(5))
-
-                    {
+                        @foreach (var item in Model.lCardTempdetData.Take(5))
+                        {
                             <tr>
                                 <td>@item.LCARDDESC</td>
                                 <td>@item.TOTALAMT</td>
                                 <td>@item.ADDAMT</td>
                                 <td>@item.BALAMT</td>
-                                <td>@item.SALEAMT</td>
-                                <td>@item.BILLID</td>
-                                <td>@item.CDATE?.ToString("yyyy-MM-dd")</td>
+                                <td><span class="extra-col">@item.SALEAMT</span></td>
+                                <td><span class="extra-col">@item.BILLID</span></td>
+                                <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td>
                             </tr>
-                    }
+                        }
                         <tr>
                             <td>2635766</td>
                             <td>11000</td>
                             <td>6000</td>
                             <td>10950</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>2025-05-09</td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">2025-05-09</span></td>
                         </tr>
                         <tr>
-                                <td>2635766</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td>10950</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>2025-05-09</td>
-                            </tr>
+                            <td>2635766</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td>10950</td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">2025-05-09</span></td>
+                        </tr>
                         <tr>
                             <td>2635766</td>
                             <td>11000</td>
                             <td>6000</td>
                             <td>10950</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>2025-05-09</td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">2025-05-09</span></td>
                         </tr>
                     </tbody>
                 </table>
-                @* <button id="toggleBtn" class="toggle-btn">Show More</button> *@
             </div>
         </div>
     </main>
 </div>
 
-
-@* <!-- ✅ Add this script at the bottom -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const toggleBtn = document.getElementById("toggleBtn");
-        const tbody = document.getElementById("dataTableBody");
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        const visibleLimit = 3;
-        let expanded = false;
+        const toggleButton = document.getElementById("toggle-columns");
+        const extraCols = document.querySelectorAll(".extra-col");
+        const container = document.querySelector(".table-container");
+        const hint = container.querySelector(".scroll-hint");
 
-        function updateTable() {
-            rows.forEach((row, i) => {
-                row.style.display = expanded || i < visibleLimit ? "" : "none";
-            });
-            toggleBtn.textContent = expanded ? "Show Less" : "Show More";
+        function updateView() {
+            const isMobile = window.innerWidth < 576;
+
+            if (isMobile) {
+                toggleButton.style.display = "inline-block";
+                hint.style.display = "block";
+                extraCols.forEach(col => col.classList.remove("visible"));
+            } else {
+                toggleButton.style.display = "none";
+                hint.style.display = "none";
+                extraCols.forEach(col => col.classList.add("visible"));
+            }
         }
 
-        toggleBtn.addEventListener("click", function () {
-            expanded = !expanded;
-            updateTable();
+        toggleButton.addEventListener("click", function () {
+            container.scrollBy({ left: 200, behavior: "smooth" });
+            extraCols.forEach(col => col.classList.toggle("visible"));
         });
 
-        updateTable(); // initialize
+        container.addEventListener("scroll", () => {
+            if (container.scrollLeft > 10) {
+                hint.style.display = "none";
+            } else if (window.innerWidth < 576) {
+                hint.style.display = "block";
+            }
+        });
+
+        window.addEventListener("resize", updateView);
+        updateView();
     });
-</script> *@
+</script>
