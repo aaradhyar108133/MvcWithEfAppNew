@@ -2,63 +2,24 @@
 @{
 }
 <style>
-    .extra-col {
-        display: inline-block;
-        max-width: 0;
-        opacity: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        transition: max-width 0.4s ease, opacity 0.4s ease;
-    }
+/* Default: Show button */
+.scroll-btn {
+    display: block;
+    margin-bottom: 10px;
+}
 
-    .extra-col.visible {
-        max-width: 150px;
-        opacity: 1;
-    }
-
-    .arrow-btn {
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        padding: 5px 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        margin: 10px 0;
-    }
-
-    .toggle-container {
+/* Hide button on desktop screens (width >= 768px) */
+    @@media (min-width: 768px) {
+    .scroll-btn {
         display: none;
-        text-align: right;
     }
-
-    .scroll-hint {
-        display: none;
-        font-size: 16px;
-        color: #555;
-        text-align: right;
-        padding: 5px;
-    }
-
-    .table-container {
-        overflow-x: auto;
-    }
-
-    @@media (max-width: 575.98px) {
-        .toggle-container {
-            display: block;
-        }
-
-        .scroll-hint {
-            display: block;
-        }
-    }
-
-    @@media (min-width: 576px) {
-        .extra-col {
-            max-width: 150px !important;
-            opacity: 1 !important;
-        }
-    }
+.table-container {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.styled-table {
+    min-width: 800px; /* or whatever width needed to make horizontal scroll */
+}
 </style>
 
 <div class="container">
@@ -106,27 +67,7 @@
                 }
             </div>
 
-            <!-- Toggle Button -->
-            <div class="toggle-container">
-
-    <svg id="leftArrow" class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <g stroke-linejoin="round" stroke-linecap="round" >
-            <circle r="46" cx="50" cy="50" />
-            <polyline points="60 25, 30 50, 60 75" ></polyline>
-        </g>
-    </svg>
-
-    <svg id="rightArrow" class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <g stroke-linejoin="round" stroke-linecap="round" >
-            <circle r="46" cx="50" cy="50" />
-            <polyline points="40 25, 70 50, 40 75" ></polyline>
-        </g>
-    </svg>
-
-            </div>
-
-            <div class="table-container">
-                <div class="scroll-hint">&#8594; Scroll to view more</div>
+            <div class="table-container" id="scrollContainer">
                 <table class="styled-table">
                     <thead>
                         <tr>
@@ -185,42 +126,34 @@
         </div>
     </main>
 </div>
-
+<button class="btn btn-primary scroll-btn" id="scrollBtn">▶ Scroll Right</button>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggleButton = document.getElementById("toggle-columns");
-        const extraCols = document.querySelectorAll(".extra-col");
-        const container = document.querySelector(".table-container");
-        const hint = container.querySelector(".scroll-hint");
+    const scrollContainer = document.getElementById('scrollContainer');
+    const scrollBtn = document.getElementById('scrollBtn');
+    let scrollRight = true;
 
-        function updateView() {
-            const isMobile = window.innerWidth < 576;
+    scrollBtn.addEventListener('click', () => {
+        const scrollAmount = 300;
 
-            if (isMobile) {
-                toggleButton.style.display = "inline-block";
-                hint.style.display = "block";
-                extraCols.forEach(col => col.classList.remove("visible"));
-            } else {
-                toggleButton.style.display = "none";
-                hint.style.display = "none";
-                extraCols.forEach(col => col.classList.add("visible"));
-            }
+        if (scrollRight) {
+            scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+            setTimeout(() => {
+                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 10) {
+                    scrollRight = false;
+                    scrollBtn.textContent = '◀ Scroll Left';
+                }
+            }, 300);
+        } else {
+            scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+
+            setTimeout(() => {
+                if (scrollContainer.scrollLeft <= 10) {
+                    scrollRight = true;
+                    scrollBtn.textContent = '▶ Scroll Right';
+                }
+            }, 300);
         }
-
-        toggleButton.addEventListener("click", function () {
-            container.scrollBy({ left: 200, behavior: "smooth" });
-            extraCols.forEach(col => col.classList.toggle("visible"));
-        });
-
-        container.addEventListener("scroll", () => {
-            if (container.scrollLeft > 10) {
-                hint.style.display = "none";
-            } else if (window.innerWidth < 576) {
-                hint.style.display = "block";
-            }
-        });
-
-        window.addEventListener("resize", updateView);
-        updateView();
     });
 </script>
+
