@@ -39,7 +39,7 @@ body {
     /*background: linear-gradient(135deg, #ff9966, #66ccff, #9966cc);*/
     background-size: cover;
     color: #ffffff;
-    background: linear-gradient(135deg, #f4b99b, #5cc1f4, #b489df);
+    background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
 }
 
 /* Card Style for Customer Info */
