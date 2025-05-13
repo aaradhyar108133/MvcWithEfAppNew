@@ -40,8 +40,28 @@ body {
 }
 
     .login-input::placeholder {
-        color: #ccc;
+        color: gray!important; /* Or any color you want */
+        opacity: 1!important; /* Optional: ensures full color visibility */
     }
+input::-webkit-input-placeholder {
+    color: gray !important; /* Or any color you want */
+    opacity: 1 !important; /* Optional: ensures full color visibility */
+}
+
+input:-moz-placeholder {
+    color: gray !important; /* Or any color you want */
+    opacity: 1 !important; /* Optional: ensures full color visibility */
+}
+
+input::-moz-placeholder {
+    color: gray !important; /* Or any color you want */
+    opacity: 1 !important; /* Optional: ensures full color visibility */
+}
+
+input:-ms-input-placeholder {
+    color: gray !important; /* Or any color you want */
+    opacity: 1 !important; /* Optional: ensures full color visibility */
+}
 
 .btn-orange {
     background-color: #e8b008;
