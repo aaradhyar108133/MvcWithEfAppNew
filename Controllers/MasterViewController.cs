@@ -12,7 +12,7 @@ namespace MvcWithEfApp.Controllers
         {
             _context = context;
         }
-
+        [Route("CardDetails")]
         public IActionResult Index()
         { 
             //if (HttpContext.Session != null) 
@@ -35,5 +35,6 @@ namespace MvcWithEfApp.Controllers
 
             return View(mainModel);
         }
+
     }
 }

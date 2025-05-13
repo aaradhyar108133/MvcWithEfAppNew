@@ -1,58 +1,163 @@
-@model MvcWithEfApp.Models.MainModel
+﻿@model MvcWithEfApp.Models.MainModel
 @{
-
 }
+<style>
+
+    .table-container {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .styled-table {
+        min-width: 800px;
+    }
+  
+
+   
+</style>
+
 <div class="container">
-    <main role="main" class="">
-        <div style="margin-top: 3rem;>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            @foreach (var item in Model.masterData)
-            {
-                    <div class="col">
+    <main role="main">
+        <div class="card-view">
+            <div>
+                @foreach (var item in Model.masterData)
+                {
+                    <div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
-                                <p class="card-text">
-                                    <strong>Type :</strong> @item.ACCTYPE <br />
-                                    <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3 <br />
-                                    <strong>Phone :</strong> @item.TELEPHONE <br />
-                                    <strong>REF :</strong> @item.REF <br />
-                                    <strong>AID :</strong> @item.AID
-                                </p>
+                                <div class="card-text">
+                                    <div class="card-text-div">
+                                        <strong>Type :</strong> @item.ACCTYPE
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>Phone :</strong> @item.TELEPHONE
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>REF :</strong> @item.REF
+                                    </div>
+                                    <div class="card-text-div">
+                                        <strong>AID :</strong> @item.AID
+                                    </div>
+                                </div>
+                                <div class="card-text">
+                                    <div class="card-text-div">
+                                        <strong>Amount :</strong> 5000
+                                    </div>
+                                    <div class="card-text-div" style="display:flex">
+                                        <strong>Card Number :</strong>
+                                        <input style="width: 70%;" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter 16-digit number" />
+                                    </div>
+                                    <div class="card-text-div" style="text-align: center;">
+                                            <button onclick="submitPayment()">Pay</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-            }
+                }
             </div>
-            <div class="table-container">
+
+            <div class="table-container" id="scrollContainer">
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>DLCARDID</th>
                             <th>LCARDDESC</th>
                             <th>TOTALAMT</th>
                             <th>ADDAMT</th>
-                            <th>SALEAMT</th>
-                            <th>BILLID</th>
-                            <th>CDATE</th>
+                            <th>BALAMT</th>
+                            <th><span class="extra-col">SALEAMT</span></th>
+                            <th><span class="extra-col">BILLID</span></th>
+                            <th><span class="extra-col">DATE</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model.lCardTempdetData)
-                    {
+                        @foreach (var item in Model.lCardTempdetData.Take(5))
+                        {
                             <tr>
-                                <td>@item.DLCARDID</td>
                                 <td>@item.LCARDDESC</td>
                                 <td>@item.TOTALAMT</td>
                                 <td>@item.ADDAMT</td>
-                                <td>@item.SALEAMT</td>
-                                <td>@item.BILLID</td>
-                                <td>@item.CDATE</td>
+                                <td>@item.BALAMT</td>
+                                <td><span class="extra-col">@item.SALEAMT</span></td>
+                                <td><span class="extra-col">@item.BILLID</span></td>
+                                <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td>
                             </tr>
-                    }
+                        }
+                        <tr>
+                            <td>2635766</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td>10950</td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">2025-05-09</span></td>
+                        </tr>
+                        <tr>
+                            <td>2635766</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td>10950</td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">2025-05-09</span></td>
+                        </tr>
+                        <tr>
+                            <td>2635766</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td>10950</td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">0</span></td>
+                            <td><span class="extra-col">2025-05-09</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
+    <!-- Dual Scroll Buttons -->
+    <a class=" prev" id="scrollLeftBtn">❮</a>
+    <a class="next" id="scrollRightBtn">❯</a>
 </div>
+<script>
+    const scrollContainer = document.getElementById('scrollContainer');
+    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+    const scrollRightBtn = document.getElementById('scrollRightBtn');
+    const scrollAmount = 300;
+
+    scrollRightBtn.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    scrollLeftBtn.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+            function submitPayment() {
+        const data = {
+            Amount: "500",
+            ProductInfo: "TestProduct",
+            FirstName: "John Doe",
+            Email: "john@example.com"
+        };
+
+        fetch('/api/payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+            console.log('Success:', response);
+            // optionally redirect or show success
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
