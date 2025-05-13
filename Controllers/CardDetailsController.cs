@@ -27,7 +27,7 @@ namespace CardPayment.Controllers
                 return RedirectToAction("Login", "Home");
             }
             MainModel mainModel = new MainModel();
-            mainModel.masterData = _context.Masters.Where(x => x.CCno.ToString() == ccno).ToList();
+            mainModel.masterData = _context.Masters.AsEnumerable().Where(x => x.CCno.ToString() == ccno).ToList();
             mainModel.lCardTempdetData = _context.LCardTempDET
                 .Where(l => l.LCARDDESC.ToString() == ccno)
                 .OrderByDescending(l => l.DLCARDID)
