@@ -2,38 +2,32 @@
 @{
 }
 <style>
-/* Default: Show button */
-.scroll-btn {
-    display: block;
-    margin-bottom: 10px;
-}
 
-/* Hide button on desktop screens (width >= 768px) */
-    @@media (min-width: 768px) {
-    .scroll-btn {
-        display: none;
+    .table-container {
+        overflow-x: auto;
+        white-space: nowrap;
     }
-.table-container {
-    overflow-x: auto;
-    white-space: nowrap;
-}
-.styled-table {
-    min-width: 800px; /* or whatever width needed to make horizontal scroll */
-}
+
+    .styled-table {
+        min-width: 800px;
+    }
+  
+
+   
 </style>
 
 <div class="container">
-    <main role="main" class="">
+    <main role="main">
         <div class="card-view">
-            <div class="">
+            <div>
                 @foreach (var item in Model.masterData)
                 {
-                    <div class="">
+                    <div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
                                 <div class="card-text">
-                                   x <div class="card-text-div">
+                                    <div class="card-text-div">
                                         <strong>Type :</strong> @item.ACCTYPE
                                     </div>
                                     <div class="card-text-div">
@@ -58,7 +52,7 @@
                                         <input style="width: 70%;" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter 16-digit number" />
                                     </div>
                                     <div class="card-text-div" style="text-align: center;">
-                                        <button>Pay</button>
+                                            <button onclick="submitPayment()">Pay</button>
                                     </div>
                                 </div>
                             </div>
@@ -125,35 +119,45 @@
             </div>
         </div>
     </main>
+    <!-- Dual Scroll Buttons -->
+    <a class=" prev" id="scrollLeftBtn">❮</a>
+    <a class="next" id="scrollRightBtn">❯</a>
 </div>
-<button class="btn btn-primary scroll-btn" id="scrollBtn">▶ Scroll Right</button>
 <script>
     const scrollContainer = document.getElementById('scrollContainer');
-    const scrollBtn = document.getElementById('scrollBtn');
-    let scrollRight = true;
+    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+    const scrollRightBtn = document.getElementById('scrollRightBtn');
+    const scrollAmount = 300;
 
-    scrollBtn.addEventListener('click', () => {
-        const scrollAmount = 300;
-
-        if (scrollRight) {
-            scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-
-            setTimeout(() => {
-                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 10) {
-                    scrollRight = false;
-                    scrollBtn.textContent = '◀ Scroll Left';
-                }
-            }, 300);
-        } else {
-            scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-
-            setTimeout(() => {
-                if (scrollContainer.scrollLeft <= 10) {
-                    scrollRight = true;
-                    scrollBtn.textContent = '▶ Scroll Right';
-                }
-            }, 300);
-        }
+    scrollRightBtn.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     });
-</script>
 
+    scrollLeftBtn.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+            function submitPayment() {
+        const data = {
+            Amount: "500",
+            ProductInfo: "TestProduct",
+            FirstName: "John Doe",
+            Email: "john@example.com"
+        };
+
+        fetch('/api/payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+            console.log('Success:', response);
+            // optionally redirect or show success
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
