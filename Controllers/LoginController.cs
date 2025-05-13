@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using MvcWithEfApp.Data;
+using CardPayment.Data;
 
-namespace MvcWithEfApp.Controllers;
+namespace CardPayment.Controllers;
 
 public class LoginController : Controller
 {
@@ -40,7 +40,7 @@ public class LoginController : Controller
                         HttpContext.Session.SetInt32("AID", user.AID);
 
                         // Redirect to MasterView/Index
-                        return RedirectToAction("Index", "MasterView");
+                        return RedirectToAction("Index", "CardDetails");
                     }
                     // Invalid login
                     ViewBag.Error = "Invalid Card Number or Password";

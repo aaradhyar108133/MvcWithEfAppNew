@@ -1,4 +1,4 @@
-﻿namespace MvcWithEfApp.Models
+﻿namespace CardPayment.Models
 {
     public class PayUModel
     {

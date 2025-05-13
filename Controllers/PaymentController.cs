@@ -7,11 +7,11 @@ using CardPayment.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MvcWithEfApp.Data;
-using MvcWithEfApp.Models;
+using CardPayment.Data;
+using CardPayment.Models;
 using XSystem.Security.Cryptography;
 
-namespace MvcWithEfApp.Controllers
+namespace CardPayment.Controllers
 {
     public class PaymentController : Controller
     {

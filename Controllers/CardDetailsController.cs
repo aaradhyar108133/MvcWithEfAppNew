@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MvcWithEfApp.Data;
-using MvcWithEfApp.Models;
+using CardPayment.Data;
+using CardPayment.Models;
 
-namespace MvcWithEfApp.Controllers
+namespace CardPayment.Controllers
 {
-    public class MasterViewController : Controller
+    public class CardDetailsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public MasterViewController(AppDbContext context)
+        public CardDetailsController(AppDbContext context)
         {
             _context = context;
         }
