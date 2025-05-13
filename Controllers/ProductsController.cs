@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MvcWithEfApp.Data;
-using MvcWithEfApp.Models;
+using CardPayment.Data;
+using CardPayment.Models;
 
-namespace MvcWithEfApp.Controllers
+namespace CardPayment.Controllers
 {
     public class ProductsController : Controller
     {

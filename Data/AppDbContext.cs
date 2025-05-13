@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MvcWithEfApp.Models;
+using CardPayment.Models;
 
-namespace MvcWithEfApp.Data
+namespace CardPayment.Data
 {
     public class AppDbContext : DbContext
     {

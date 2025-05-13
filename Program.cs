@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MvcWithEfApp.Data;
+using CardPayment.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
