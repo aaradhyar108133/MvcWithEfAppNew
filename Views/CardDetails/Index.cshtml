@@ -62,6 +62,8 @@
             </div>
 
             <div class="table-container" id="scrollContainer">
+              @*   <!-- Dual Scroll Buttons -->
+                <a class=" prev" id="scrollLeftBtn">❮</a> *@
                 <table class="styled-table">
                     <thead>
                         <tr>
@@ -75,6 +77,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                       
                         @foreach (var item in Model.lCardTempdetData.Take(5))
                         {
                             <tr>
@@ -87,41 +90,16 @@
                                 <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td>
                             </tr>
                         }
-                        <tr>
-                            <td>2635766</td>
-                            <td>11000</td>
-                            <td>6000</td>
-                            <td>10950</td>
-                            <td><span class="extra-col">0</span></td>
-                            <td><span class="extra-col">0</span></td>
-                            <td><span class="extra-col">2025-05-09</span></td>
-                        </tr>
-                        <tr>
-                            <td>2635766</td>
-                            <td>11000</td>
-                            <td>6000</td>
-                            <td>10950</td>
-                            <td><span class="extra-col">0</span></td>
-                            <td><span class="extra-col">0</span></td>
-                            <td><span class="extra-col">2025-05-09</span></td>
-                        </tr>
-                        <tr>
-                            <td>2635766</td>
-                            <td>11000</td>
-                            <td>6000</td>
-                            <td>10950</td>
-                            <td><span class="extra-col">0</span></td>
-                            <td><span class="extra-col">0</span></td>
-                            <td><span class="extra-col">2025-05-09</span></td>
-                        </tr>
                     </tbody>
                 </table>
+                @* <a class="next" id="scrollRightBtn">❯</a> *@
+            </div>
+            <div class="right-scroll-div">
+               <p class="right-scroll">Scroll right to see more content</p>
             </div>
         </div>
     </main>
-    <!-- Dual Scroll Buttons -->
-    <a class=" prev" id="scrollLeftBtn">❮</a>
-    <a class="next" id="scrollRightBtn">❯</a>
+   
 </div>
 <script>
     const scrollContainer = document.getElementById('scrollContainer');

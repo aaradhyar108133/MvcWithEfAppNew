@@ -102,6 +102,7 @@ body {
     overflow-x: auto;
     box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
     height: auto;
+    border-radius: 10px;
 }
 
 .styled-table {
@@ -178,6 +179,14 @@ body {
     font-weight: bold;
     right: 0.5rem;
 }
+.right-scroll {
+    color: black;
+}
+.right-scroll-div {
+    margin-top: 11px;
+    font-style: italic;
+    font-size: 12px;
+}
 /*// Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {
     /* Hide scroll buttons on wider screens */
@@ -210,6 +219,15 @@ body {
         color: orange;
         font-weight: bold;
         right: 4rem;
+    }
+    .right-scroll {
+        color: black;
+    }
+
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
     }
 }
 
@@ -246,6 +264,15 @@ body {
         font-weight: bold;
         right: 0.5rem;
     }
+    .right-scroll {
+        color: black;
+    }
+
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
+    }
 }
 
 @media only screen and (max-width: 414px) {
@@ -279,6 +306,15 @@ body {
         color: orange;
         font-weight: bold;
         right: 0.5rem;
+    }
+    .right-scroll {
+        color: black;
+    }
+
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
     }
 }
 /*// Medium devices (tablets, 768px and up)*/
@@ -316,7 +352,14 @@ body {
         font-weight: bold;
         right: 8rem;
     }
-
+    .right-scroll {
+        color: black;
+    }
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
+    }
 }
 
 /*// Large devices (desktops, 992px and up)*/
@@ -354,6 +397,9 @@ body {
 
     .next {
         right: 10px;
+    }
+    .right-scroll-div{
+       display:none;
     }
 }
 
@@ -393,6 +439,9 @@ body {
     .next {
         right: 10px;
     }
+    .right-scroll-div {
+        display: none;
+    }
 }
 
 /*// XX-Large devices (larger desktops, 1400px and up)*/
@@ -430,5 +479,8 @@ body {
 
     .next {
         right: 10px;
+    }
+    .right-scroll-div {
+        display: none;
     }
 }
