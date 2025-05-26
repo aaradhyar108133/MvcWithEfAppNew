@@ -4,16 +4,68 @@
 <style>
 
     .table-container {
-        overflow-x: auto;
-        white-space: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
     }
 
     .styled-table {
-        min-width: 800px;
+    min-width: 800px;
     }
-  
 
-   
+      /* Overlay style */
+    #overlay {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    /* Popup content */
+    .popup {
+        background: white;
+        padding: 50px 15px;
+        border-radius: 8px;
+        max-width: 300px;
+        text-align: center;
+        box-shadow: 0px 3px 10px 10px rgb(40 40 40 / 30%);
+    }
+
+    .close-btn {
+        font-size: 12px;
+        padding: 7px 10px;
+        margin-right: 10px;
+        background: gray;
+        border: 1px solid gray;
+        color: white;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .Ok-btn{
+        font-size: 12px;
+        margin-right: 10px;
+        background: #e8b008;
+        border: 1px solid #e8b008;
+        color: white;
+        border-radius: 5px;
+        padding: 7px 14px;
+        font-weight: bold;
+    }
+
+    .disable-pay-btn {
+        font-size: 12px;
+        padding: 7px 10px;
+        margin-right: 10px;
+        background: gray;
+        border: 1px solid gray;
+        color: white;
+        border-radius: 5px;
+        font-weight: bold;
+    }
 </style>
 
 <div class="container">
@@ -22,28 +74,43 @@
             <div>
                 @foreach (var item in Model.masterData)
                 {
+                    <input type="hidden" id="cardId" value="@item.CCno" />
                     <div>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
                                 <div class="card-text">
-                                    <div class="card-text-div">
+                                    @*  <div class="card-text-div">
                                         <strong>Type :</strong> @item.ACCTYPE
+                                    </div> *@
+                                    <div class="card-text-div">
+                                        @item.ADD1
                                     </div>
                                     <div class="card-text-div">
-                                        <strong>Address :</strong> @item.ADD1, @item.ADD2, @item.ADD3
+                                        @item.ADD2
                                     </div>
                                     <div class="card-text-div">
-                                        <strong>Phone :</strong> @item.TELEPHONE
+                                        @item.TELEPHONE
                                     </div>
                                     <div class="card-text-div">
-                                        <strong>REF :</strong> @item.REF
+                                        @item.REF
                                     </div>
+                                    <div class="card-text-div" style="display: flex;">
+                                        <div style="margin-right: 10px;">
+                                            <input type="text" id="amtInput" inputmode="numeric" style="padding: 5px 10px;font-size: 12px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the amount" />
+                                        </div>
+                                       <div>
+                                            <button id="paySubmitBtn" class="disable-pay-btn" onclick="openOverlay()" style="padding: 5px 10px 5px 10px;font-size: 12px;" disabled>
+                                                Pay
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @* 
                                     <div class="card-text-div">
                                         <strong>AID :</strong> @item.AID
-                                    </div>
+                                    </div> *@
                                 </div>
-                                 @* <div class="card-text">
+                                @* <div class="card-text">
                                     <div class="card-text-div">
                                         <strong>Amount :</strong> 5000
                                     </div>
@@ -62,34 +129,213 @@
             </div>
 
             <div class="table-container" id="scrollContainer">
-              @*   <!-- Dual Scroll Buttons -->
+                @*   <!-- Dual Scroll Buttons -->
                 <a class=" prev" id="scrollLeftBtn">❮</a> *@
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>Card Number</th>
+                            <th>DATE</th>
                             <th>TOTALAMT</th>
-                            <th>ADDAMT</th>
+                            <th>RECHARGE</th>
+                            <th>SALE</th>
+                            <th>BILL No.</th>
+                            <th>BALANCE</th>
+                            @* <th>Card Number</th>
+
+
                             <th>BALAMT</th>
                             <th><span class="extra-col">SALEAMT</span></th>
                             <th><span class="extra-col">BILLID</span></th>
-                            <th><span class="extra-col">DATE</span></th>
+                            <th><span class="extra-col">DATE</span></th> *@
                         </tr>
                     </thead>
                     <tbody>
-                       
-                        @foreach (var item in Model.lCardTempdetData.Take(5))
+
+                        @foreach (var item in Model.lCardTempdetData.Take(15))
                         {
+
+                            string totalamt = item.TOTALAMT == 0 ? "" : item.TOTALAMT.ToString();
+                            string addamt = item.ADDAMT == 0 ? "" : item.ADDAMT.ToString();
+                            string saleamt = item.SALEAMT == 0 ? "" : item.SALEAMT.ToString();
+                            string billno = item.BILLID == 0 ? "" : item.BILLID.ToString();
+                            string balamt = item.BALAMT == 0 ? "" : item.BALAMT.ToString();
+
                             <tr>
+                                <td>@item.CDATE?.ToString("dd/MM/yyyy")</td>
+                                <td>@totalamt</td>
+                                <td>@addamt</td>
+                                <td>@saleamt</td>
+                                <td>@billno</td>
+                                <td>@balamt</td>@* 
                                 <td>@item.LCARDDESC</td>
-                                <td>@item.TOTALAMT</td>
-                                <td>@item.ADDAMT</td>
+                                
+                                
                                 <td>@item.BALAMT</td>
                                 <td><span class="extra-col">@item.SALEAMT</span></td>
                                 <td><span class="extra-col">@item.BILLID</span></td>
-                                <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td>
+                                <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td> *@
                             </tr>
                         }
+                        <tr>
+                            <td>09/05/2025</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td></td>
+                            <td></td>
+                            <td>10950</td>
+                        </tr>
+                        <tr>
+                            <td>09/05/2025</td>
+                            <td>5000</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>4950</td>
+                        </tr>
+                         <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                             <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                             <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                             <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                             <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                        <tr>
+                            <td>09/05/2025</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td></td>
+                            <td></td>
+                            <td>10950</td>
+                        </tr>
+                        <tr>
+                            <td>09/05/2025</td>
+                            <td>5000</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>4950</td>
+                        </tr>
+                         <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                             <tr>
+                                <td>09/05/2025</td>
+                                <td>11000</td>
+                                <td>6000</td>
+                                <td></td>
+                                <td></td>
+                                <td>10950</td>
+                            </tr>
+                            <tr>
+                                <td>09/05/2025</td>
+                                <td>5000</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>4950</td>
+                            </tr>
+                        <tr>
+                            <td>09/05/2025</td>
+                            <td>11000</td>
+                            <td>6000</td>
+                            <td></td>
+                            <td></td>
+                            <td>10950</td>
+                        </tr>
+                        <tr>
+                            <td>09/05/2025</td>
+                            <td>5000</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>4950</td>
+                        </tr>
                     </tbody>
                 </table>
                 @* <a class="next" id="scrollRightBtn">❯</a> *@
@@ -101,22 +347,60 @@
     </main>
    
 </div>
+<div id="overlay">
+    <div class="popup">
+        <p style="color: black;font-size: 20px;">Are you sure you want to pay!</p>
+        <button class="close-btn" onclick="closeOverlay()">Close</button>
+        <button class="Ok-btn" onclick="submitPayment()">Ok</button>
+    </div>
+</div>
 <script>
-    const scrollContainer = document.getElementById('scrollContainer');
-    const scrollLeftBtn = document.getElementById('scrollLeftBtn');
-    const scrollRightBtn = document.getElementById('scrollRightBtn');
-    const scrollAmount = 300;
+   
+    const input = document.getElementById('amtInput');
+    const button = document.getElementById('paySubmitBtn');
 
-    scrollRightBtn.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+    function closeOverlay() {
+      document.getElementById("overlay").style.display = "none";
+      document.getElementById('amtInput').value = '';
+      button.disabled = true;
+      document.getElementById('paySubmitBtn').classList.add('disable-pay-btn');
+      document.getElementById('paySubmitBtn').classList.remove('enable-paybutton');
+    }
+    function openOverlay() {
+      document.getElementById("overlay").style.display = "flex";
+    }
+    input.addEventListener('input', function () {
+      if (input.value.trim() !== '') {
+        button.disabled = false;
+         document.getElementById('paySubmitBtn').classList.remove('disable-pay-btn');
+         document.getElementById('paySubmitBtn').classList.add('enable-paybutton');
+      } else {
+        button.disabled = true;
+        document.getElementById('paySubmitBtn').classList.add('disable-pay-btn');
+        document.getElementById('paySubmitBtn').classList.remove('enable-paybutton');
+      }
     });
 
-    scrollLeftBtn.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
-            function submitPayment() {
+
+
+
+    // const scrollContainer = document.getElementById('scrollContainer');
+    // const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+    // const scrollRightBtn = document.getElementById('scrollRightBtn');
+    // const scrollAmount = 300;
+
+    // scrollRightBtn.addEventListener('click', () => {
+    //     scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    // });
+
+    // scrollLeftBtn.addEventListener('click', () => {
+    //     scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    // });
+    function submitPayment() {
         const data = {
-            Amount: "500",
+            amount:  document.getElementById('amtInput').value,
+            cardId: document.getElementById('cardId').value,
             ProductInfo: "TestProduct",
             FirstName: "John Doe",
             Email: "john@example.com"
@@ -131,11 +415,14 @@
         })
         .then(res => res.json())
         .then(response => {
-            console.log('Success:', response);
-            // optionally redirect or show success
+            if (response.status == true) {
+              location.reload(); // Refresh the page
+            } else {
+              console.log('Status is false, not refreshing.');
+            }
         })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+         .catch(error => {
+          console.error('API error:', error);
+         });
     }
 </script>
