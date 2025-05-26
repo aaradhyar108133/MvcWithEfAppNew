@@ -29,7 +29,7 @@ namespace CardPayment.Controllers
         }
         [Route("api/payment")]
         [HttpPost]
-        public IActionResult Pay([FromBody] PayUModel model)
+        public JsonResult Pay([FromBody] PayUModelRequest model)
         {
             var key = _config["PayU:MerchantKey"];
             var salt = _config["PayU:Salt"];
@@ -42,7 +42,11 @@ namespace CardPayment.Controllers
             model.Furl = Url.Action("Failure", "Payment", null, Request.Scheme);
 
             ViewBag.PayUUrl = baseUrl;
-            return RedirectToAction("Pay", model);
+            PayUModelResponse payUModelResponse = new PayUModelResponse();
+            payUModelResponse.message = "success";
+            payUModelResponse.status = true;
+
+            return Json(payUModelResponse);
             //return View("Pay", model);
         }
 
