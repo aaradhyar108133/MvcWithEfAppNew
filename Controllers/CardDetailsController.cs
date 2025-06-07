@@ -14,22 +14,16 @@ namespace CardPayment.Controllers
         }
         [Route("CardDetails")]
         public IActionResult Index()
-        { 
-            //if (HttpContext.Session != null) 
-            //{
-            //    string username = HttpContext.Session.GetString("CCno");
-            //    string name = HttpContext.Session.GetString("Account");
-            //    int? userId = HttpContext.Session.GetInt32("AID");
-            //}
-            string? ccno = HttpContext.Session.GetString("CCno");
-            if (string.IsNullOrEmpty(ccno))
+        {
+            var cardNumber = HttpContext.Session.GetString("CCno");
+            if (string.IsNullOrEmpty(cardNumber))
             {
                 return RedirectToAction("Login", "Home");
             }
             MainModel mainModel = new MainModel();
-            mainModel.masterData = _context.Masters.AsEnumerable().Where(x => x.CCno.ToString() == ccno).ToList();
+            mainModel.masterData = _context.Masters.AsEnumerable().Where(x => x.CCno.ToString() == cardNumber).ToList();
             mainModel.lCardTempdetData = _context.LCardTempDET
-                .Where(l => l.LCARDDESC.ToString() == ccno)
+                .Where(l => l.LCARDDESC.ToString() == cardNumber)
                 .OrderByDescending(l => l.DLCARDID)
                 .ToList();
 

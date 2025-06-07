@@ -455,7 +455,10 @@
                 openOverlay2()
                 document.getElementById("popup2Text").innerHTML = response.message;
               
-            } else {
+            } else if(response.status == false && response.message == "Session time Out"){
+                window.location.href = '/';
+            }
+            else {
                 openOverlay2()
                 document.getElementById("popup2Text").innerHTML = response.message;
             }

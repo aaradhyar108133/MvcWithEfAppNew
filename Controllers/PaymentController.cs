@@ -35,6 +35,16 @@ namespace CardPayment.Controllers
         [HttpPost]
         public async Task<IActionResult> Pay([FromBody] PayUModelRequest model)
         {
+            var cardNumber = HttpContext.Session.GetString("CCno");
+            if (string.IsNullOrEmpty(cardNumber))
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Session time Out",
+                    PayUUrl = "0"
+                });
+            }
             var key = _config["PayU:MerchantKey"];
             var salt = _config["PayU:Salt"];
             var baseUrl = _config["PayU:BaseUrl"];

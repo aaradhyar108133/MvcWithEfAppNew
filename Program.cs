@@ -12,7 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Optional: session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(2); // Optional: session timeout
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
