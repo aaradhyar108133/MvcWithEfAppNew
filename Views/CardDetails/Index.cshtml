@@ -102,25 +102,41 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
+                                <div style="text-decoration: underline;border-bottom: 1px solid #6d6969;margin-top: 5px;"></div>
                                 <div class="card-text">
                                     @*  <div class="card-text-div">
                                         <strong>Type :</strong> @item.ACCTYPE
                                     </div> *@
-                                    <div class="card-text-div">
-                                        @item.ADD1
+                                    <div style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;">
+                                        <div style="float: left;">
+                                            <div class="card-text-div">
+                                                @item.ADD1
+                                            </div>
+                                            <div class="card-text-div">
+                                                @item.ADD2
+                                            </div>
+                                        </div>
+                                        <div style="float: right;">
+                                            <div class="card-text-div">
+                                                @item.TELEPHONE
+                                            </div>
+                                            <div class="card-text-div">
+                                                @item.REF
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-text-div">
-                                        @item.ADD2
+                                    <div style="text-decoration: underline;border-bottom: 1px solid #6d6969;"></div>
+                                    <div class="card-text-div" style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;">
+                                       <div>
+                                            Current Balance:
+                                       </div> 
+                                       <div>
+                                            @Model.lCardTempdetData[0].BALAMT
+                                       </div>
                                     </div>
-                                    <div class="card-text-div">
-                                        @item.TELEPHONE
-                                    </div>
-                                    <div class="card-text-div">
-                                        @item.REF
-                                    </div>
-                                    <div class="card-text-div" style="display: flex;">
-                                        <div style="margin-right: 10px;">
-                                            <input type="text" id="amtInput" inputmode="numeric" style="padding: 5px 10px;font-size: 12px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the amount" />
+                                    <div class="card-text-div" style="display: flex;justify-content: space-between;margin: 15px 0px 10px 0px;">
+                                        <div style="">
+                                            <input type="text" id="amtInput" inputmode="numeric" style="padding: 5px 10px;font-size: 12px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the Recharge Amount" />
                                         </div>
                                        <div>
                                             <button id="paySubmitBtn" class="disable-pay-btn" onclick="openOverlay()" style="padding: 5px 10px 5px 10px;font-size: 12px;" disabled>
@@ -142,7 +158,7 @@
                                         <input style="width: 70%;" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter 16-digit number" />
                                     </div>
                                     <div class="card-text-div" style="text-align: center;">
-                                            <button onclick="submitPayment()">Pay</button>
+                                            <button onclick="getHashPayment()">Pay</button>
                                     </div>
                                 </div> *@
                             </div>
@@ -151,7 +167,7 @@
                 }
             </div>
 
-            <div class="table-container" id="scrollContainer">
+            <div class="table-container">
                 @*   <!-- Dual Scroll Buttons -->
                 <a class=" prev" id="scrollLeftBtn">❮</a> *@
                 <table class="styled-table">
@@ -199,166 +215,7 @@
                                 <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td> *@
                             </tr>
                         }
-                        <tr>
-                            <td>09/05/2025</td>
-                            <td>11000</td>
-                            <td>6000</td>
-                            <td></td>
-                            <td></td>
-                            <td>10950</td>
-                        </tr>
-                        <tr>
-                            <td>09/05/2025</td>
-                            <td>5000</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>4950</td>
-                        </tr>
-                         <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                             <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                             <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                             <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                             <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                        <tr>
-                            <td>09/05/2025</td>
-                            <td>11000</td>
-                            <td>6000</td>
-                            <td></td>
-                            <td></td>
-                            <td>10950</td>
-                        </tr>
-                        <tr>
-                            <td>09/05/2025</td>
-                            <td>5000</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>4950</td>
-                        </tr>
-                         <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                             <tr>
-                                <td>09/05/2025</td>
-                                <td>11000</td>
-                                <td>6000</td>
-                                <td></td>
-                                <td></td>
-                                <td>10950</td>
-                            </tr>
-                            <tr>
-                                <td>09/05/2025</td>
-                                <td>5000</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>4950</td>
-                            </tr>
-                        <tr>
-                            <td>09/05/2025</td>
-                            <td>11000</td>
-                            <td>6000</td>
-                            <td></td>
-                            <td></td>
-                            <td>10950</td>
-                        </tr>
-                        <tr>
-                            <td>09/05/2025</td>
-                            <td>5000</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>4950</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
                 @* <a class="next" id="scrollRightBtn">❯</a> *@
@@ -374,7 +231,7 @@
     <div class="popup">
         <p style="color: black;font-size: 20px;">Are you sure you want to pay!</p>
         <button class="close-btn" onclick="closeOverlay()">Close</button>
-        <button class="Ok-btn" onclick="submitPayment()">Ok</button>
+        <button class="Ok-btn" onclick="getHashPayment()">Ok</button>
     </div>
 </div>
 <div id="overlay2">
@@ -433,6 +290,64 @@
     // scrollLeftBtn.addEventListener('click', () => {
     //     scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     // });
+    var RequestData = {};
+    function getHashPayment() {
+        
+        const data = {
+            Amount:  document.getElementById('amtInput').value,
+            Card: document.getElementById('cardId').value,
+            ProductInfo: "TestProduct",
+            FirstName: "John Doe",
+            Email: "john@example.com"
+        };
+
+        fetch('/api/GetHash', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+             console.log("getHashPayment response", response);
+             RequestData = {
+               key: response.key,
+               txnid: response.txn,
+               hash: response.hash,
+               amount: response.amount,
+               firstname: response.fName,
+               email: response.email,
+               productinfo: response.plan,
+               phone: "7532975183",
+               surl: response.surl,
+               furl: response.furl
+             
+             }
+              var wn = window;
+              var Handler = {
+                 responseHandler: function (BOLT) {
+                 
+                   console.log("success", BOLT);
+              
+                 console.log("this.RequestData", RequestData);
+                 
+                 },
+                 catchException: function (BOLT) {
+                 console.log("this.RequestData", RequestData);
+                   // the code you use to handle the integration errors goes here
+                   console.log("fail", BOLT);
+              
+                 
+                 }
+              }
+              wn.bolt.launch(RequestData, Handler);
+        })
+        .catch(error => {
+         console.error('API error:', error);
+        });
+       
+    }
     function submitPayment() {
         const data = {
             Amount:  document.getElementById('amtInput').value,
@@ -455,7 +370,10 @@
                 openOverlay2()
                 document.getElementById("popup2Text").innerHTML = response.message;
               
-            } else {
+            } else if(response.status == false && response.message == "Session time Out"){
+                window.location.href = '/';
+            }
+            else {
                 openOverlay2()
                 document.getElementById("popup2Text").innerHTML = response.message;
             }

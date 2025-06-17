@@ -39,6 +39,7 @@ public class LoginController : Controller
                         HttpContext.Session.SetString("Account", user.ACCOUNT ?? "");
                         HttpContext.Session.SetInt32("AID", user.AID);
 
+
                         // Redirect to MasterView/Index
                         return RedirectToAction("Index", "CardDetails");
                     }

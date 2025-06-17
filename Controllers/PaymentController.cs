@@ -12,6 +12,9 @@ using CardPayment.Models;
 using XSystem.Security.Cryptography;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Newtonsoft.Json.Linq;
+using System.Security.Policy;
+using System.Xml.Linq;
 
 namespace CardPayment.Controllers
 {
@@ -31,16 +34,101 @@ namespace CardPayment.Controllers
         {
             return View();
         }
+        [Route("api/GetHash")]
+        [HttpPost]
+        public async Task<IActionResult> GetHash([FromBody] PayUModelRequest model)
+        {
+            var cardNumber = HttpContext.Session.GetString("CCno");
+            if (string.IsNullOrEmpty(cardNumber))
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Session time Out",
+                    PayUUrl = "0"
+                });
+            }
+            if (model == null || model.Card <= 0 || model.Amount <= 0)
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Invalid card or amount."
+                });
+            }
+            byte[] hash;
+            var Key = _config["PayU:MerchantKey"];
+            var Salt = _config["PayU:Salt"];
+            model.Surl = Url.Action("Success", "Payment", null, Request.Scheme);
+            model.Furl = Url.Action("Failure", "Payment", null, Request.Scheme);
+            try
+            {
+                var data = new
+                {
+                    key = Key,
+                    salt = Salt,
+                    amount = model.Amount,
+                    txnid = GenerateOrderID(),
+                    plan = model.ProductInfo,
+                    fname = model.FirstName
+                    ,
+                    email = model.Email,
+                    udf5 = ""
+                };
+                string d = data.key + "|" + data.txnid + "|" + data.amount + "|" + data.plan + "|" + data.fname + "|" + data.email + "|||||||||||" + data.salt;
+                var datab = Encoding.UTF8.GetBytes(d);
+                using (SHA512 shaM = new SHA512Managed())
+                {
+                    hash = shaM.ComputeHash(datab);
+                }
+                return Ok(new
+                {
+                    Key = data.key,
+                    txn = data.txnid,
+                    Amount = data.amount,
+                    hash = GetStringFromHash(hash),
+                    FName = data.fname,
+                    Email = data.email,
+                    Plan = data.plan,
+                    surl = model.Surl,
+                    furl = model.Furl
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("inner error");
+            }
+
+
+
+        }
         [Route("api/payment")]
         [HttpPost]
         public async Task<IActionResult> Pay([FromBody] PayUModelRequest model)
         {
+            var cardNumber = HttpContext.Session.GetString("CCno");
+            if (string.IsNullOrEmpty(cardNumber))
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Session time Out",
+                    PayUUrl = "0"
+                });
+            }
+            if (model == null || model.Card <= 0 || model.Amount <= 0)
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Invalid card or amount."
+                });
+            }
             var key = _config["PayU:MerchantKey"];
             var salt = _config["PayU:Salt"];
-            var baseUrl = _config["PayU:BaseUrl"];
-
             model.Key = key;
             model.TxnId = Guid.NewGuid().ToString("N").Substring(0, 20);
+
             model.Hash = PayUHashHelper.GenerateHash(key, model.TxnId, model.AmountStr, model.ProductInfo, model.FirstName, model.Email, salt);
             model.Surl = Url.Action("Success", "Payment", null, Request.Scheme);
             model.Furl = Url.Action("Failure", "Payment", null, Request.Scheme);
@@ -81,11 +169,11 @@ namespace CardPayment.Controllers
                 var result = (int)returnParam.Value;
                 if (result == 1)
                 {
+
                     return Ok(new PayUModelResponse
                     {
                         status = true,
-                        message = "Card recharge successful.",
-                        PayUUrl = baseUrl
+                        message = "Card recharge successful."
                     });
                 }
                 else
@@ -93,8 +181,7 @@ namespace CardPayment.Controllers
                     return BadRequest(new PayUModelResponse
                     {
                         status = false,
-                        message = "Card recharge failed.",
-                        PayUUrl = baseUrl
+                        message = "Card recharge failed."
                     });
                 }
             }
@@ -103,14 +190,29 @@ namespace CardPayment.Controllers
                 return StatusCode(500, new PayUModelResponse
                 {
                     status = false,
-                    message = $"Error: {ex.Message}",
-                    PayUUrl = baseUrl
+                    message = $"Error: {ex.Message}"
                 });
             }
 
         }
 
-
+        private static string GetStringFromHash(byte[] hash)
+        {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                result.Append(hash[i].ToString("X2").ToLower());
+            }
+            return result.ToString();
+        }
+        public string GenerateOrderID()
+        {
+            Random rnd = new Random();
+            Int64 s1 = rnd.Next(000000, 999999);
+            Int64 s2 = Convert.ToInt64(DateTime.Now.ToString("ddMMyyyyHHmmss"));
+            string s3 = s1.ToString() + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8) + s2.ToString();
+            return s3;
+        }
         public IActionResult Success()
         {
             return View();
