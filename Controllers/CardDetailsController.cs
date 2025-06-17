@@ -18,7 +18,7 @@ namespace CardPayment.Controllers
             var cardNumber = HttpContext.Session.GetString("CCno");
             if (string.IsNullOrEmpty(cardNumber))
             {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Login", "Login");
             }
             MainModel mainModel = new MainModel();
             mainModel.masterData = _context.Masters.AsEnumerable().Where(x => x.CCno.ToString() == cardNumber).ToList();

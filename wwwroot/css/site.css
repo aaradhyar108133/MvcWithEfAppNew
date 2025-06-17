@@ -21,7 +21,9 @@ html {
     position: relative;
     min-height: 100%;
 }
-
+#amtInput {
+    width: 120%;
+}
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
     color: var(--bs-secondary-color);
@@ -59,7 +61,6 @@ body {
 
 .card-text-div {
     width: 100%;
-    margin-top: 5px;
 }
 
 .card-title {
@@ -95,25 +96,26 @@ body {
 
 
 
-/* Table Style */
+/* Table Container */
 .table-container {
-    margin: 30px 0px 0px 0px;
+    margin: 30px 0 0 0;
     overflow-x: auto;
     box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
     height: 320px;
-    overflow-y: scroll;
+    overflow-y: auto; /* Keep scroll vertical */
     scrollbar-width: thin;
-    scrollbar-color: #7e85bc #959de7;   
+    scrollbar-color: #7e85bc #959de7;
 }
 
+/* Styled Table */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
-    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+    /* Table Cells */
     .styled-table th,
     .styled-table td {
         padding: 14px 18px;
@@ -121,11 +123,16 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .styled-table thead {
-        background-color: rgb(101 93 93 / 40%);
+    /* Sticky Header */
+    .styled-table thead th {
+        position: sticky;
+        top: 0;
+        background-color: rgb(109 118 154);
         color: #e8b008;
+        z-index: 2;
     }
 
+    /* Row Striping and Hover */
     .styled-table tbody tr:nth-child(even) {
         background-color: rgba(255, 255, 255, 0.05);
     }
@@ -364,10 +371,7 @@ body {
 
 /*// Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
-    .card-text {
-        /*display: flex;*/
-        margin-top: 20px;
-    }
+   
     .card {
         width: 30%;
     }
@@ -407,10 +411,7 @@ body {
 
 /*// X-Large devices (large desktops, 1200px and up)
 */ @media (min-width: 1200px) {
-    .card-text {
-        /*display: flex;*/
-        margin-top: 20px;
-    }
+    
     .card {
         width: 30%;
     }
