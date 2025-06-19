@@ -59,8 +59,8 @@ namespace CardPayment.Controllers
             byte[] hash;
             var Key = _config["PayU:MerchantKey"];
             var Salt = _config["PayU:Salt"];
-            model.Surl = Url.Action("Success", "Payment", null, Request.Scheme);
-            model.Furl = Url.Action("Failure", "Payment", null, Request.Scheme);
+            model.Surl = Url.Action("CardDetails", "Payment", null, Request.Scheme);
+            model.Furl = Url.Action("CardDetails", "Payment", null, Request.Scheme);
             try
             {
                 var data = new

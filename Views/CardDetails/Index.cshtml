@@ -297,8 +297,8 @@
             Amount:  document.getElementById('amtInput').value,
             Card: document.getElementById('cardId').value,
             ProductInfo: "TestProduct",
-            FirstName: "John Doe",
-            Email: "john@example.com"
+            FirstName: "Suneel Joshi",
+            Email: "sunil.joshi985@gmail.com"
         };
 
         fetch('/api/GetHash', {
@@ -319,18 +319,27 @@
                firstname: response.fName,
                email: response.email,
                productinfo: response.plan,
-               phone: "7532975183",
+               phone: "8742958519",
                surl: response.surl,
                furl: response.furl
              
              }
+             console.log("1", RequestData);
               var wn = window;
               var Handler = {
                  responseHandler: function (BOLT) {
-                 
-                   console.log("success", BOLT);
+                        if(BOLT.response.txnStatus == "SUCCESS"){
+                          console.log('Your payment has been successful');
+                        }
+                        if (BOLT.response.txnStatus == "FAILED") {
+                           console.log('Payment failed. Please try again.');
+                        }
+                        if(BOLT.response.txnStatus == "CANCEL"){
+                           console.log('Payment failed. Please try again.');
+                        }
+                  
               
-                 console.log("this.RequestData", RequestData);
+                        console.log("this.RequestData", RequestData);
                  
                  },
                  catchException: function (BOLT) {
