@@ -15,6 +15,7 @@ namespace CardPayment.Data
         public DbSet<Login> Masters { get; set; }
         public DbSet<LCardTempDET> LCardTempDET { get; set; }
         public DbSet<LOYALTYCARD> LOYALTYCARD { get; set; }
+        public DbSet<PaymentLogs> PaymentLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
