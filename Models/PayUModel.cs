@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace CardPayment.Models
 {
@@ -18,11 +20,29 @@ namespace CardPayment.Models
         public string Furl { get; set; }
         public string Hash { get; set; }
     }
-
+    public class PaymentRequest
+    {
+        public bool Status { get; set; }
+        public string JsonRes { get; set; }
+        public string JsonReq { get; set; }
+    }
     public class PayUModelResponse
     {
         public string message { get; set; }
         public string PayUUrl { get; set; }
         public bool status { get; set; }
+    }
+
+    public class PaymentLogs
+    {
+        [Key]
+        public int UserID { get; set; } // EF will treat this as identity
+
+        public string CardNumber { get; set; }
+        public string Amount { get; set; }
+        public string TransactionId { get; set; }
+        public string PaymentStatus { get; set; }
+        public string PayUJson { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

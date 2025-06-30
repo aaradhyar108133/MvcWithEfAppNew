@@ -102,9 +102,10 @@ namespace CardPayment.Controllers
 
 
         }
+       
         [Route("api/payment")]
         [HttpPost]
-        public async Task<IActionResult> Pay([FromBody] PayUModelRequest model)
+        public async Task<IActionResult> Pay([FromBody] PaymentRequest model)
         {
             var cardNumber = HttpContext.Session.GetString("CCno");
             if (string.IsNullOrEmpty(cardNumber))
@@ -116,74 +117,131 @@ namespace CardPayment.Controllers
                     PayUUrl = "0"
                 });
             }
-            if (model == null || model.Card <= 0 || model.Amount <= 0)
+            if (model == null && model.JsonRes == null && model.JsonReq == null)
             {
                 return BadRequest(new PayUModelResponse
                 {
                     status = false,
-                    message = "Invalid card or amount."
+                    message = "Session time Out",
+                    PayUUrl = "0"
                 });
             }
-            var key = _config["PayU:MerchantKey"];
-            var salt = _config["PayU:Salt"];
-            model.Key = key;
-            model.TxnId = Guid.NewGuid().ToString("N").Substring(0, 20);
-
-            model.Hash = PayUHashHelper.GenerateHash(key, model.TxnId, model.AmountStr, model.ProductInfo, model.FirstName, model.Email, salt);
-            model.Surl = Url.Action("Success", "Payment", null, Request.Scheme);
-            model.Furl = Url.Action("Failure", "Payment", null, Request.Scheme);
-
+            var request = JObject.Parse(model.JsonReq);
+            var response = JObject.Parse(model.JsonRes);
             try
             {
-                using var connection = _context.Database.GetDbConnection();
-                await connection.OpenAsync();
-
-                using var command = connection.CreateCommand();
-                command.CommandText = "dbo.CardRecharge";
-                command.CommandType = CommandType.StoredProcedure;
-
-                var cardParam = new SqlParameter("@card", SqlDbType.Decimal)
+                if (model.Status == true)
                 {
-                    Precision = 20,
-                    Scale = 0,
-                    Value = model.Card
-                };
-
-                var amountParam = new SqlParameter("@Amount", SqlDbType.Int)
-                {
-                    Value = model.Amount
-                };
-
-                var returnParam = new SqlParameter
-                {
-                    ParameterName = "@ReturnVal",
-                    Direction = ParameterDirection.ReturnValue
-                };
-
-                command.Parameters.Add(cardParam);
-                command.Parameters.Add(amountParam);
-                command.Parameters.Add(returnParam);
-
-                await command.ExecuteNonQueryAsync();
-
-                var result = (int)returnParam.Value;
-                if (result == 1)
-                {
-
-                    return Ok(new PayUModelResponse
+                    if (response["response"]?["txnStatus"]?.ToString().ToLower() == "success")
                     {
-                        status = true,
-                        message = "Card recharge successful."
-                    });
+                        var log = new PaymentLogs
+                        {
+                            CardNumber = cardNumber.ToString(),
+                            Amount = response["response"]?["amount"]?.ToString(),
+                            TransactionId = response["response"]?["txnid"]?.ToString(),
+                            PaymentStatus = response["response"]?["txnStatus"]?.ToString(),
+                            PayUJson = model.JsonRes,
+                            CreatedDate = DateTime.Now
+                        };
+
+                        _context.PaymentLogs.Add(log);
+                        await _context.SaveChangesAsync(); // EF auto-assigns UserID
+
+                        using var connection = _context.Database.GetDbConnection();
+                        await connection.OpenAsync();
+
+                        using var command = connection.CreateCommand();
+                        command.CommandText = "dbo.CardRecharge";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        var cardParam = new SqlParameter("@card", SqlDbType.Decimal)
+                        {
+                            Precision = 20,
+                            Scale = 0,
+                            Value = cardNumber
+                        };
+
+                        var amountParam = new SqlParameter("@Amount", SqlDbType.Int)
+                        {
+                            Value = Convert.ToInt32(Math.Floor(Convert.ToDecimal(response["response"]?["amount"]?.ToString())))
+                        };
+
+                        var returnParam = new SqlParameter
+                        {
+                            ParameterName = "@ReturnVal",
+                            Direction = ParameterDirection.ReturnValue
+                        };
+
+                        command.Parameters.Add(cardParam);
+                        command.Parameters.Add(amountParam);
+                        command.Parameters.Add(returnParam);
+
+                        await command.ExecuteNonQueryAsync();
+
+                        var result = (int)returnParam.Value;
+                        if (result == 1)
+                        {
+
+                            return Ok(new PayUModelResponse
+                            {
+                                status = true,
+                                message = "Card recharge successful."
+                            });
+                        }
+                        else
+                        {
+                            return BadRequest(new PayUModelResponse
+                            {
+                                status = false,
+                                message = "Card recharge failed."
+                            });
+                        }
+                    }
+                    else
+                    {
+                        var log = new PaymentLogs
+                        {
+                            CardNumber = cardNumber.ToString(),
+                            Amount = request["amount"]?.ToString(),
+                            TransactionId = request["txnid"].ToString(),
+                            PaymentStatus = response["response"]?["txnStatus"]?.ToString(),
+                            PayUJson = model.JsonRes,
+                            CreatedDate = DateTime.Now
+                        };
+
+                        _context.PaymentLogs.Add(log);
+                        await _context.SaveChangesAsync(); // EF auto-assigns UserID
+
+                        return BadRequest(new PayUModelResponse
+                        {
+                            status = false,
+                            message = "Card recharge failed."
+                        });
+                    }
+
                 }
                 else
                 {
+                    var log = new PaymentLogs
+                    {
+                        CardNumber = cardNumber.ToString(),
+                        Amount = request["amount"]?.ToString(),
+                        TransactionId = request["txnid"].ToString(),
+                        PaymentStatus = response["response"]?["txnStatus"]?.ToString(),
+                        PayUJson = model.JsonRes,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    _context.PaymentLogs.Add(log);
+                    await _context.SaveChangesAsync(); // EF auto-assigns UserID
+
                     return BadRequest(new PayUModelResponse
                     {
                         status = false,
                         message = "Card recharge failed."
                     });
                 }
+
             }
             catch (Exception ex)
             {
