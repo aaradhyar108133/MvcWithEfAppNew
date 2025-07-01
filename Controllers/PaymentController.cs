@@ -70,8 +70,7 @@ namespace CardPayment.Controllers
                     amount = model.Amount,
                     txnid = GenerateOrderID(),
                     plan = model.ProductInfo,
-                    fname = model.FirstName
-                    ,
+                    fname = model.FirstName,
                     email = model.Email,
                     udf5 = ""
                 };
@@ -81,6 +80,18 @@ namespace CardPayment.Controllers
                 {
                     hash = shaM.ComputeHash(datab);
                 }
+                var log = new PaymentLogs
+                {
+                    CardNumber = cardNumber.ToString(),
+                    Amount = data.amount.ToString(),
+                    TransactionId = data.txnid.ToString(),
+                    PaymentStatus = "Hash Generated",
+                    PayUJson = GetStringFromHash(hash),
+                    CreatedDate = DateTime.Now
+                };
+
+                _context.PaymentLogs.Add(log);
+                await _context.SaveChangesAsync(); // EF auto-assigns UserID
                 return Ok(new
                 {
                     Key = data.key,
