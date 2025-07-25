@@ -106,11 +106,11 @@
 						<div class="card">
 							<div class="card-body">
 								<div style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;">
-									<div>
+									<div style="width: 60%;">
 										<h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
 									</div>
-									<div>
-										<a href="/CardDetails/Logout" id="logoutbtn" class="logout-btn" style="text-decoration: none;padding: 5px 12px 5px 12px;font-size: 15px;color: white;background: #e8ab5d;border: 1px solid #e8ab5d;font-weight: bold;border-radius: 5px;">
+									<div style ="width: 25%;text-align: left;">
+										<a href="/CardDetails/Logout" id="logoutbtn" class="logout-btn" style="text-decoration: none;padding: 5px 10px 5px 10px;font-size: 14px;color: white;background: #e8ab5d;border: 1px solid #e8ab5d;font-weight: bold;border-radius: 5px;">
 											Logout
 										</a>
 									</div>
@@ -121,7 +121,7 @@
                                         <strong>Type :</strong> @item.ACCTYPE
                                     </div> *@
 									<div style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;">
-										<div style="float: left;">
+										<div style="float: left;width: 60%;">
 											<div class="card-text-div">
 												@item.ADD1
 											</div>
@@ -129,29 +129,29 @@
 												@item.ADD2
 											</div>
 										</div>
-										<div style="float: right;">
-											<div class="card-text-div" style="text-align: right;">
+										<div style="float: right;width: 25%;text-align: left;">
+											<div class="card-text-div">
 												@item.TELEPHONE
 											</div>
-											<div class="card-text-div" style="text-align: right;">
+											<div class="card-text-div">
 												@item.REF
 											</div>
 										</div>
 									</div>
 									<div style="text-decoration: underline;border-bottom: 1px solid #6d6969;"></div>
 									<div class="card-text-div" style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;color: #e8ab5d;font-weight: bold;font-size: 1rem;">
-										<div>
+										<div style="width: 60%;">
 											Current Balance:
 										</div>
-										<div>
+										<div style="width: 25%;text-align: left;">
 											@Model.lCardTempdetData[0].BALAMT
 										</div>
 									</div>
 									<div class="card-text-div" style="display: flex;justify-content: space-between;margin: 15px 0px 10px 0px;">
-										<div style="">
+										<div style="width: 60%;">
 											<input type="text" id="amtInput" inputmode="numeric" style="padding: 5px 15px;font-size: 15px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the Recharge Amount" />
 										</div>
-										<div>
+										<div style="width: 25%;text-align: left;">
 											<button id="paySubmitBtn" class="disable-pay-btn" onclick="openOverlay()" style="padding: 5px 15px 5px 15px;font-size: 15px;" disabled>
 												Pay
 											</button>
