@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MvcWithEfApp.Data;
+using CardPayment.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,12 +31,12 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Login}/{id?}")
-    .WithStaticAssets();
+
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 
 app.Run();

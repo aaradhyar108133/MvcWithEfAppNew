@@ -1,0 +1,390 @@
+﻿@model CardPayment.Models.MainModel
+@{
+}
+<style>
+
+	.table-container {
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	.styled-table {
+		min-width: 800px;
+	}
+
+	/* Overlay style */
+	#overlay {
+		display: none; /* Hidden by default */
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent */
+		justify-content: center;
+		align-items: center;
+		z-index: 1000;
+	}
+
+	/* Popup content */
+	.popup {
+		background: white;
+		padding: 50px 15px;
+		border-radius: 8px;
+		max-width: 300px;
+		text-align: center;
+		box-shadow: 0px 3px 10px 10px rgb(40 40 40 / 30%);
+	}
+	/* Overlay style */
+	#overlay2 {
+		display: none; /* Hidden by default */
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent */
+		justify-content: center;
+		align-items: center;
+		z-index: 1000;
+	}
+
+	/* Popup content */
+	.popup2 {
+		background: white;
+		padding: 50px 15px;
+		border-radius: 8px;
+		max-width: 300px;
+		text-align: center;
+		box-shadow: 0px 3px 10px 10px rgb(40 40 40 / 30%);
+	}
+
+	.close-btn {
+		font-size: 12px;
+		padding: 7px 10px;
+		margin-right: 10px;
+		background: gray;
+		border: 1px solid gray;
+		color: white;
+		border-radius: 5px;
+		font-weight: bold;
+	}
+
+	.Ok-btn {
+		font-size: 12px;
+		margin-right: 10px;
+		background: #e8b008;
+		border: 1px solid #e8b008;
+		color: white;
+		border-radius: 5px;
+		padding: 7px 14px;
+		font-weight: bold;
+	}
+
+	.disable-pay-btn {
+		font-size: 12px;
+		padding: 7px 10px;
+		margin-right: 10px;
+		background: gray;
+		border: 1px solid gray;
+		color: white;
+		border-radius: 5px;
+		font-weight: bold;
+	}
+</style>
+
+<div class="container">
+	<main role="main">
+		<div class="card-view">
+			<div>
+				@foreach (var item in Model.masterData)
+				{
+					<input type="hidden" id="cardId" value="@item.CCno" />
+					<input type="hidden" id="tellNumber" value="@item.REF" />
+					<input type="hidden" id="accName" value="@item.ACCOUNT" />
+					<input type="hidden" id="accEmail" value="@item.ADD3" />
+					<div>
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">@item.ACCOUNT (@item.CCno)</h5>
+								<div style="text-decoration: underline;border-bottom: 1px solid #6d6969;margin-top: 5px;"></div>
+								<div class="card-text">
+									@*  <div class="card-text-div">
+                                        <strong>Type :</strong> @item.ACCTYPE
+                                    </div> *@
+									<div style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;">
+										<div style="float: left;">
+											<div class="card-text-div">
+												@item.ADD1
+											</div>
+											<div class="card-text-div">
+												@item.ADD2
+											</div>
+										</div>
+										<div style="float: right;">
+											<div class="card-text-div">
+												@item.TELEPHONE
+											</div>
+											<div class="card-text-div">
+												@item.REF
+											</div>
+										</div>
+									</div>
+									<div style="text-decoration: underline;border-bottom: 1px solid #6d6969;"></div>
+									<div class="card-text-div" style="display: flex;justify-content: space-between;margin: 10px 0px 10px 0px;color: #e8ab5d;font-weight: bold;">
+										<div>
+											Current Balance:
+										</div>
+										<div>
+											@Model.lCardTempdetData[0].BALAMT
+										</div>
+									</div>
+									<div class="card-text-div" style="display: flex;justify-content: space-between;margin: 15px 0px 10px 0px;">
+										<div style="">
+											<input type="text" id="amtInput" inputmode="numeric" style="padding: 5px 10px;font-size: 12px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the Recharge Amount" />
+										</div>
+										<div>
+											<button id="paySubmitBtn" class="disable-pay-btn" onclick="openOverlay()" style="padding: 5px 10px 5px 10px;font-size: 12px;" disabled>
+												Pay
+											</button>
+										</div>
+									</div>
+									@* 
+                                    <div class="card-text-div">
+                                        <strong>AID :</strong> @item.AID
+                                    </div> *@
+								</div>
+								@* <div class="card-text">
+                                    <div class="card-text-div">
+                                        <strong>Amount :</strong> 5000
+                                    </div>
+                                    <div class="card-text-div" style="display:flex">
+                                        <strong>Card Number :</strong>
+                                        <input style="width: 70%;" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter 16-digit number" />
+                                    </div>
+                                    <div class="card-text-div" style="text-align: center;">
+                                            <button onclick="getHashPayment()">Pay</button>
+                                    </div>
+                                </div> *@
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+
+			<div class="table-container">
+				@*   <!-- Dual Scroll Buttons -->
+                <a class=" prev" id="scrollLeftBtn">❮</a> *@
+				<table class="styled-table">
+					<thead>
+						<tr>
+							<th>DATE</th>
+							<th>TOTALAMT</th>
+							<th>RECHARGE</th>
+							<th>SALE</th>
+							<th>BILL No.</th>
+							<th>BALANCE</th>
+							@* <th>Card Number</th>
+
+
+                            <th>BALAMT</th>
+                            <th><span class="extra-col">SALEAMT</span></th>
+                            <th><span class="extra-col">BILLID</span></th>
+                            <th><span class="extra-col">DATE</span></th> *@
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var item in Model.lCardTempdetData.Take(15))
+						{
+
+							string totalamt = item.TOTALAMT == 0 ? "" : item.TOTALAMT.ToString();
+							string addamt = item.ADDAMT == 0 ? "" : item.ADDAMT.ToString();
+							string saleamt = item.SALEAMT == 0 ? "" : item.SALEAMT.ToString();
+							string billno = item.BILLID == 0 ? "" : item.BILLID.ToString();
+							string balamt = item.BALAMT == 0 ? "" : item.BALAMT.ToString();
+
+							<tr>
+								<td>@item.CDATE?.ToString("dd/MM/yyyy")</td>
+								<td>@totalamt</td>
+								<td>@addamt</td>
+								<td>@saleamt</td>
+								<td>@billno</td>
+								<td>@balamt</td>@* 
+                                <td>@item.LCARDDESC</td>
+
+
+                                <td>@item.BALAMT</td>
+                                <td><span class="extra-col">@item.SALEAMT</span></td>
+                                <td><span class="extra-col">@item.BILLID</span></td>
+                                <td><span class="extra-col">@item.CDATE?.ToString("yyyy-MM-dd")</span></td> *@
+							</tr>
+						}
+
+					</tbody>
+				</table>
+				@* <a class="next" id="scrollRightBtn">❯</a> *@
+			</div>
+			<div class="right-scroll-div">
+				<p class="right-scroll">Scroll right to see more content</p>
+			</div>
+		</div>
+	</main>
+
+</div>
+<div id="overlay">
+	<div class="popup">
+		<p style="color: black;font-size: 20px;">Are you sure you want to pay!</p>
+		<button class="close-btn" onclick="closeOverlay()">Close</button>
+		<button class="Ok-btn" onclick="getHashPayment()">Ok</button>
+	</div>
+</div>
+<div id="overlay2">
+	<div class="popup2">
+		<p style="color: black;font-size: 20px;" id="popup2Text"></p>
+		<button class="Ok-btn" onclick="reloadWindow()">Ok</button>
+	</div>
+</div>
+<script>
+
+	const input = document.getElementById('amtInput');
+	const button = document.getElementById('paySubmitBtn');
+
+
+	function closeOverlay() {
+	  document.getElementById("overlay").style.display = "none";
+	  document.getElementById('amtInput').value = '';
+	  button.disabled = true;
+	  document.getElementById('paySubmitBtn').classList.add('disable-pay-btn');
+	  document.getElementById('paySubmitBtn').classList.remove('enable-paybutton');
+	}
+	function reloadWindow(){
+		location.reload(); // Refresh the page
+	}
+	function openOverlay() {
+	  document.getElementById("overlay").style.display = "flex";
+	}
+	 function openOverlay2() {
+	  document.getElementById("overlay2").style.display = "flex";
+	  document.getElementById("overlay").style.display = "none";
+	}
+	input.addEventListener('input', function () {
+	  if (input.value.trim() !== '') {
+		button.disabled = false;
+		 document.getElementById('paySubmitBtn').classList.remove('disable-pay-btn');
+		 document.getElementById('paySubmitBtn').classList.add('enable-paybutton');
+	  } else {
+		button.disabled = true;
+		document.getElementById('paySubmitBtn').classList.add('disable-pay-btn');
+		document.getElementById('paySubmitBtn').classList.remove('enable-paybutton');
+	  }
+	});
+
+
+
+
+	// const scrollContainer = document.getElementById('scrollContainer');
+	// const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+	// const scrollRightBtn = document.getElementById('scrollRightBtn');
+	// const scrollAmount = 300;
+
+	// scrollRightBtn.addEventListener('click', () => {
+	//     scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+	// });
+
+	// scrollLeftBtn.addEventListener('click', () => {
+	//     scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+	// });
+	var RequestData = {};
+	function getHashPayment() {
+
+		const data = {
+			Amount:  document.getElementById('amtInput').value,
+			Card: document.getElementById('cardId').value,
+			ProductInfo: "CardRecharge",
+			FirstName: document.getElementById('accName').value,
+			Email: document.getElementById('accEmail').value
+		};
+
+		fetch('/api/GetHash', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+		.then(res => res.json())
+		.then(response => {
+			 console.log("getHashPayment response", response);
+			 RequestData = {
+			   key: response.key,
+			   txnid: response.txn,
+			   hash: response.hash,
+			   amount: response.amount,
+			   firstname: response.fName,
+			   email: response.email,
+			   productinfo: response.plan,
+			   phone: document.getElementById('tellNumber').value,
+			   surl: response.surl,
+			   furl: response.furl
+
+			 }
+			  var wn = window;
+			  var Handler = {
+				 responseHandler: function (BOLT) {
+
+				   console.log("success", BOLT);
+
+				 console.log("this.RequestData", RequestData);
+				 submitPayment(true,BOLT,RequestData);
+
+				 },
+				 catchException: function (BOLT) {
+					console.log("this.RequestData", RequestData);
+				   // the code you use to handle the integration errors goes here
+				   console.log("fail", BOLT);
+				   submitPayment(false,BOLT,RequestData);
+
+				 }
+			  }
+			  wn.bolt.launch(RequestData, Handler);
+		})
+		.catch(error => {
+		 console.error('API error:', error);
+		});
+
+	}
+	function submitPayment(value,Boltres,ResData) {
+		const data = {
+			JsonRes:  JSON.stringify(Boltres),
+			JsonReq:  JSON.stringify(ResData),
+			Status: value,
+		};
+		console.log('submitPayment data:', data);
+		  fetch('/api/payment', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+		  .then(res => res.json())
+		  .then(response => {
+			if (response.status == true) {
+				openOverlay2()
+				document.getElementById("popup2Text").innerHTML = response.message;
+
+			} else if(response.status == false && response.message == "Session time Out"){
+				window.location.href = '/';
+			}
+			else {
+				openOverlay2()
+				document.getElementById("popup2Text").innerHTML = response.message;
+			}
+		})
+		  .catch(error => {
+		  console.error('API error:', error);
+		 });
+
+	}
+</script>

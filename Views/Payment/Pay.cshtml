@@ -1,24 +1,22 @@
-﻿@model MvcWithEfApp.Models.PayUModel
-
-@using (Html.BeginForm("", "", FormMethod.Post, new { action = ViewBag.PayUUrl }))
-{
-    @Html.Hidden("key", Model.Key)
-    @Html.Hidden("txnid", Model.TxnId)
-    @Html.Hidden("amount", Model.Amount)
-    @Html.Hidden("productinfo", Model.ProductInfo)
-    @Html.Hidden("firstname", Model.FirstName)
-    @Html.Hidden("email", Model.Email)
-    @Html.Hidden("phone", Model.Phone)
-    @Html.Hidden("surl", Model.Surl)
-    @Html.Hidden("furl", Model.Furl)
-    @Html.Hidden("hash", Model.Hash)
-
-    @Html.Hidden("udf1", Model.Udf1)
-    @Html.Hidden("udf2", Model.Udf2)
-    @Html.Hidden("udf3", Model.Udf3)
-    @Html.Hidden("udf4", Model.Udf4)
-    @Html.Hidden("udf5", Model.Udf5)
-
-
-    <input type="submit" value="Pay Now" />
+﻿@model PayUModelRequest
+@{
+    Layout = null;
 }
+
+<form id="payuForm" action="@ViewBag.PayUUrl" method="post">
+    <input type="hidden" name="key" value="@Model.Key" />
+    <input type="hidden" name="txnid" value="@Model.TxnId" />
+    <input type="hidden" name="amount" value="@Model.Amount" />
+    <input type="hidden" name="productinfo" value="@Model.ProductInfo" />
+    <input type="hidden" name="firstname" value="@Model.FirstName" />
+    <input type="hidden" name="email" value="@Model.Email" />
+   
+    <input type="hidden" name="surl" value="@Model.Surl" />
+    <input type="hidden" name="furl" value="@Model.Furl" />
+    <input type="hidden" name="hash" value="@Model.Hash" />
+    <h2>Thank You, @ViewBag.FirstName</h2>
+</form>
+
+<script>
+    document.getElementById("payuForm").submit();
+</script>

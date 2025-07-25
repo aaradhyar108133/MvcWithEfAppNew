@@ -3,131 +3,292 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardPayment.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MvcWithEfApp.Data;
-using MvcWithEfApp.Models;
+using CardPayment.Data;
+using CardPayment.Models;
 using XSystem.Security.Cryptography;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using Newtonsoft.Json.Linq;
+using System.Security.Policy;
+using System.Xml.Linq;
 
-namespace MvcWithEfApp.Controllers
+namespace CardPayment.Controllers
 {
     public class PaymentController : Controller
     {
         private readonly IConfiguration _config;
+        private readonly AppDbContext _context;
 
-        public PaymentController(IConfiguration config)
+        public PaymentController(AppDbContext context, IConfiguration config)
         {
             _config = config;
+            _context = context;
         }
 
-        public IActionResult Pay()
+        [HttpGet]
+        public IActionResult Index()
         {
-           // var merchantKey = _config["PayU:MerchantKey"];
-           // var salt = _config["PayU:MerchantSalt"];
-            var baseUrl = _config["PayU:BaseUrl"];  // You’ll pass this to the view
-
-            string key = _config["PayU:MerchantKey"];
-            string salt = _config["PayU:MerchantSalt"];
-            string txnid = "99b69aae9956497ea6be";
-            string amount = "500";
-            string productInfo = "Test Product";
-            string firstName = "John";
-            string email = "john@example.com";
-            var phone = "9876543210";
-
-            var surl = Url.Action("Success", "Payment", null, Request.Scheme);
-            var furl = Url.Action("Failure", "Payment", null, Request.Scheme);
-
-
-            // Even if udf fields are empty, they must be included
-            string udf1 = ""; string udf2 = ""; string udf3 = "";
-            string udf4 = ""; string udf5 = "";
-
-            // Build the hash string with exactly 15 values before salt
-            string hashString = string.Join("|", new string[] {
-    key, txnid, amount, productInfo, firstName, email,
-    udf1, udf2, udf3, udf4, udf5, "", "", "", "", "", salt
-});
-
-            string hash = GenerateSHA512Hash(hashString);
-
-            var model = new PayUModel
-            {
-                Key = key,
-                TxnId = txnid,
-                Amount = "500",
-                ProductInfo = "Test Product",
-                FirstName = "John",
-                Email = "john@example.com",
-                Phone = "9876543210",
-                Surl = Url.Action("Success", "Payment", null, Request.Scheme),
-                Furl = Url.Action("Failure", "Payment", null, Request.Scheme),
-                Udf1 = "",
-                Udf2 = "",
-                Udf3 = "",
-                Udf4 = "",
-                Udf5 = ""
-
-            };
-            // Correct hash generation:
-            model.Hash = GeneratePayUHash(model, key, salt);
-            Console.WriteLine("Hash String: " + model.Hash);
-            ViewBag.PayUUrl = baseUrl; // ?? Pass the URL to the view
-
-            return View(model);
+            return View();
         }
-        public string GeneratePayUHash(PayUModel model, string key, string salt)
+        [Route("api/GetHash")]
+        [HttpPost]
+        public async Task<IActionResult> GetHash([FromBody] PayUModelRequest model)
         {
-            string[] hashVars = new string[]
+            var cardNumber = HttpContext.Session.GetString("CCno");
+            if (string.IsNullOrEmpty(cardNumber))
             {
-        key,
-        model.TxnId,
-        model.Amount,
-        model.ProductInfo,
-        model.FirstName,
-        model.Email,
-        model.Udf1 ?? "",  // Empty if not provided
-        model.Udf2 ?? "",
-        model.Udf3 ?? "",
-        model.Udf4 ?? "",
-        model.Udf5 ?? "",
-        "", "", "", "", "", // udf6-udf10 (empty)
-        salt
-            };
-
-            // Join the array with "|" separator
-            string hashString = string.Join("|", hashVars);
-
-            // Log hash string for debugging
-            Console.WriteLine("Hash String: " + hashString);  // Log for debugging
-
-            // Generate the hash using SHA512
-            return GenerateSHA512Hash(hashString);
-        }
-
-
-
-
-        private string GenerateSHA512Hash(string text)
-        {
-            byte[] message = Encoding.UTF8.GetBytes(text);
-            using (SHA512Managed hashString = new SHA512Managed())
-            {
-                byte[] hashValue = hashString.ComputeHash(message);
-                return string.Concat(hashValue.Select(b => b.ToString("x2")));
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Session time Out",
+                    PayUUrl = "0"
+                });
             }
+            if (model == null || model.Card <= 0 || model.Amount <= 0)
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Invalid card or amount."
+                });
+            }
+            byte[] hash;
+            var Key = _config["PayU:MerchantKey"];
+            var Salt = _config["PayU:Salt"];
+            model.Surl = Url.Action("Success", "Payment", null, Request.Scheme);
+            model.Furl = Url.Action("Failure", "Payment", null, Request.Scheme);
+            try
+            {
+                var data = new
+                {
+                    key = Key,
+                    salt = Salt,
+                    amount = model.Amount,
+                    txnid = GenerateOrderID(),
+                    plan = model.ProductInfo,
+                    fname = model.FirstName,
+                    email = model.Email,
+                    udf5 = ""
+                };
+                string d = data.key + "|" + data.txnid + "|" + data.amount + "|" + data.plan + "|" + data.fname + "|" + data.email + "|||||||||||" + data.salt;
+                var datab = Encoding.UTF8.GetBytes(d);
+                using (SHA512 shaM = new SHA512Managed())
+                {
+                    hash = shaM.ComputeHash(datab);
+                }
+                var log = new PaymentLogs
+                {
+                    CardNumber = cardNumber.ToString(),
+                    Amount = data.amount.ToString(),
+                    TransactionId = data.txnid.ToString(),
+                    PaymentStatus = "Hash Generated",
+                    PayUJson = GetStringFromHash(hash),
+                    CreatedDate = DateTime.Now
+                };
+
+                _context.PaymentLogs.Add(log);
+                await _context.SaveChangesAsync(); // EF auto-assigns UserID
+                return Ok(new
+                {
+                    Key = data.key,
+                    txn = data.txnid,
+                    Amount = data.amount,
+                    hash = GetStringFromHash(hash),
+                    FName = data.fname,
+                    Email = data.email,
+                    Plan = data.plan,
+                    surl = model.Surl,
+                    furl = model.Furl
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("inner error");
+            }
+
+
+
+        }
+       
+        [Route("api/payment")]
+        [HttpPost]
+        public async Task<IActionResult> Pay([FromBody] PaymentRequest model)
+        {
+            var cardNumber = HttpContext.Session.GetString("CCno");
+            if (string.IsNullOrEmpty(cardNumber))
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Session time Out",
+                    PayUUrl = "0"
+                });
+            }
+            if (model == null && model.JsonRes == null && model.JsonReq == null)
+            {
+                return BadRequest(new PayUModelResponse
+                {
+                    status = false,
+                    message = "Session time Out",
+                    PayUUrl = "0"
+                });
+            }
+            var request = JObject.Parse(model.JsonReq);
+            var response = JObject.Parse(model.JsonRes);
+            try
+            {
+                if (model.Status == true)
+                {
+                    if (response["response"]?["txnStatus"]?.ToString().ToLower() == "success")
+                    {
+                        var log = new PaymentLogs
+                        {
+                            CardNumber = cardNumber.ToString(),
+                            Amount = response["response"]?["amount"]?.ToString(),
+                            TransactionId = response["response"]?["txnid"]?.ToString(),
+                            PaymentStatus = response["response"]?["txnStatus"]?.ToString(),
+                            PayUJson = model.JsonRes,
+                            CreatedDate = DateTime.Now
+                        };
+
+                        _context.PaymentLogs.Add(log);
+                        await _context.SaveChangesAsync(); // EF auto-assigns UserID
+
+                        using var connection = _context.Database.GetDbConnection();
+                        await connection.OpenAsync();
+
+                        using var command = connection.CreateCommand();
+                        command.CommandText = "dbo.CardRecharge";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        var cardParam = new SqlParameter("@card", SqlDbType.Decimal)
+                        {
+                            Precision = 20,
+                            Scale = 0,
+                            Value = cardNumber
+                        };
+
+                        var amountParam = new SqlParameter("@Amount", SqlDbType.Int)
+                        {
+                            Value = Convert.ToInt32(Math.Floor(Convert.ToDecimal(response["response"]?["amount"]?.ToString())))
+                        };
+
+                        var returnParam = new SqlParameter
+                        {
+                            ParameterName = "@ReturnVal",
+                            Direction = ParameterDirection.ReturnValue
+                        };
+
+                        command.Parameters.Add(cardParam);
+                        command.Parameters.Add(amountParam);
+                        command.Parameters.Add(returnParam);
+
+                        await command.ExecuteNonQueryAsync();
+
+                        var result = (int)returnParam.Value;
+                        if (result == 1)
+                        {
+
+                            return Ok(new PayUModelResponse
+                            {
+                                status = true,
+                                message = "Card recharge successful."
+                            });
+                        }
+                        else
+                        {
+                            return BadRequest(new PayUModelResponse
+                            {
+                                status = false,
+                                message = "Card recharge failed."
+                            });
+                        }
+                    }
+                    else
+                    {
+                        var log = new PaymentLogs
+                        {
+                            CardNumber = cardNumber.ToString(),
+                            Amount = request["amount"]?.ToString(),
+                            TransactionId = request["txnid"].ToString(),
+                            PaymentStatus = response["response"]?["txnStatus"]?.ToString(),
+                            PayUJson = model.JsonRes,
+                            CreatedDate = DateTime.Now
+                        };
+
+                        _context.PaymentLogs.Add(log);
+                        await _context.SaveChangesAsync(); // EF auto-assigns UserID
+
+                        return BadRequest(new PayUModelResponse
+                        {
+                            status = false,
+                            message = "Card recharge failed."
+                        });
+                    }
+
+                }
+                else
+                {
+                    var log = new PaymentLogs
+                    {
+                        CardNumber = cardNumber.ToString(),
+                        Amount = request["amount"]?.ToString(),
+                        TransactionId = request["txnid"].ToString(),
+                        PaymentStatus = response["response"]?["txnStatus"]?.ToString(),
+                        PayUJson = model.JsonRes,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    _context.PaymentLogs.Add(log);
+                    await _context.SaveChangesAsync(); // EF auto-assigns UserID
+
+                    return BadRequest(new PayUModelResponse
+                    {
+                        status = false,
+                        message = "Card recharge failed."
+                    });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new PayUModelResponse
+                {
+                    status = false,
+                    message = $"Error: {ex.Message}"
+                });
+            }
+
         }
 
-        public ActionResult Success()
+        private static string GetStringFromHash(byte[] hash)
         {
-            // handle success: update DB via Entity Framework
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                result.Append(hash[i].ToString("X2").ToLower());
+            }
+            return result.ToString();
+        }
+        public string GenerateOrderID()
+        {
+            Random rnd = new Random();
+            Int64 s1 = rnd.Next(000000, 999999);
+            Int64 s2 = Convert.ToInt64(DateTime.Now.ToString("ddMMyyyyHHmmss"));
+            string s3 = s1.ToString() + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8) + s2.ToString();
+            return s3;
+        }
+        public IActionResult Success()
+        {
             return View();
         }
 
-        public ActionResult Failure()
+        public IActionResult Failure()
         {
-            // handle failure
             return View();
         }
     }

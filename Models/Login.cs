@@ -1,6 +1,6 @@
-﻿namespace MvcWithEfApp.Models
+﻿namespace CardPayment.Models
 {
-    public class Master
+    public class Login
     {
         public int AID { get; set; }
         public string? ACCTYPE { get; set; }
@@ -15,6 +15,7 @@
     public class LCardTempDET
     {
         public int? DLCARDID { get; set; }
+        public double? BALAMT { get; set; }
         public double? TOTALAMT { get; set; }
         public double? ADDAMT { get; set; }
         public double? SALEAMT { get; set; }
@@ -22,12 +23,20 @@
         public decimal? LCARDDESC { get; set; }
         public DateTime? CDATE { get; set; }
     }
-
-    public class MainModel
+    public class LOYALTYCARD
     {
-        public List<Master> masterData { get; set; }
-
-        public List<LCardTempDET> lCardTempdetData { get; set; }
+        public int? LCARDID { get;set; }
+        public decimal? LCARDDESC { get;set; }
+        public bool? ACTIVATE { get;set; }
 
     }
+    public class MainModel
+    {
+        public List<Login> masterData { get; set; }
+
+        public List<LCardTempDET> lCardTempdetData { get; set; }
+        public List<LOYALTYCARD> loyaltyCard { get; set; }
+
+    }
+    
 }

@@ -1,35 +1,37 @@
-*{
-    margin:0;
-    padding:0;  
+* {
+    margin: 0;
+    padding: 0;
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+}
+#amtInput {
+    width: 120%;
 }
 
-
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
 }
 
 /* General page styles */
@@ -39,7 +41,7 @@ body {
     /*background: linear-gradient(135deg, #ff9966, #66ccff, #9966cc);*/
     background-size: cover;
     color: #ffffff;
-    background: linear-gradient(135deg, #f4b99b, #5cc1f4, #b489df);
+    background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
 }
 
 /* Card Style for Customer Info */
@@ -49,24 +51,28 @@ body {
     border: none;
     border-radius: 10px;
     margin-bottom: -10px;
-    margin-top:-38px;
-    width: 30%;
+    margin-top: -38px;
     overflow: hidden;
 }
+
 .card-body {
-    padding: 1.75rem;
+    padding: 0.75rem 0.75rem 0.75rem 0.75rem;
+}
+
+.card-text-div {
+    width: 100%;
 }
 
 .card-title {
     font-weight: 600;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0px;
     font-size: 1.2rem;
-    padding-bottom: 0.75rem;
     position: relative;
     color: #e8b008;
+    text-align: center;
 }
 
-    .card-title:after {
+/*.card-title:after {
         content: '';
         position: absolute;
         bottom: 0;
@@ -74,39 +80,42 @@ body {
         width: 50px;
         height: 2px;
         background: linear-gradient(90deg, #1a73e8, rgba(26, 115, 232, 0.3));
-    }
+    }*/
 
 .card-text {
     font-size: 0.95rem;
-    color:white;
+    color: white;
 }
 
     .card-text strong {
         font-weight: 600;
-        min-width: 80px;
         display: inline-block;
-        color:white;
+        color: #e8b008;
+        margin-right: 5px;
     }
 
 
 
-/* Table Style */
+/* Table Container */
 .table-container {
-    margin: 30px 0px 0px 0px;
+    margin: 30px 0 0 0;
     overflow-x: auto;
     box-shadow: -14px 11px 20px 5px rgba(0, 0, 0, 0.3);
-    height:auto;
+    height: 320px;
+    overflow-y: auto; /* Keep scroll vertical */
+    scrollbar-width: thin;
+    scrollbar-color: #7e85bc #959de7;
 }
 
+/* Styled Table */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 12px;
-    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+    /* Table Cells */
     .styled-table th,
     .styled-table td {
         padding: 14px 18px;
@@ -114,11 +123,16 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .styled-table thead {
-        background-color: rgb(101 93 93 / 40%);
+    /* Sticky Header */
+    .styled-table thead th {
+        position: sticky;
+        top: 0;
+        background-color: rgb(109 118 154);
         color: #e8b008;
+        z-index: 2;
     }
 
+    /* Row Striping and Hover */
     .styled-table tbody tr:nth-child(even) {
         background-color: rgba(255, 255, 255, 0.05);
     }
@@ -126,3 +140,354 @@ body {
     .styled-table tbody tr:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
+
+.card-view {
+    margin-top: 52px;
+}
+
+.enable-paybutton {
+    color: white;
+    color: white;
+    background: #e8b008;
+    padding: 5px 15px 5px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #916d03;
+    border-radius: 10px;
+}
+/* Hide scroll buttons on wider screens */
+.prev {
+    display: block;
+    top: 63%;
+    z-index: 1000;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    font-size: 25px;
+    background: transparent;
+    text-decoration: none;
+    color: orange;
+    font-weight: bold;
+}
+
+.next {
+    display: block;
+    top: 63%;
+    z-index: 1000;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    font-size: 25px;
+    background: transparent;
+    text-decoration: none;
+    color: orange;
+    font-weight: bold;
+    right: 0.5rem;
+}
+.right-scroll {
+    color: black;
+}
+.right-scroll-div {
+    margin-top: 11px;
+    font-style: italic;
+    font-size: 12px;
+}
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    /* Hide scroll buttons on wider screens */
+    .prev {
+        display: block;
+        top: 63%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .next {
+        display: block;
+        top: 63%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+        right: 4rem;
+    }
+    .right-scroll {
+        color: black;
+    }
+
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
+    }
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    /* Hide scroll buttons on wider screens */
+    .prev {
+        display: block;
+        top: 63%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .next {
+        display: block;
+        top: 63%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+        right: 0.5rem;
+    }
+    .right-scroll {
+        color: black;
+    }
+
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    /* Hide scroll buttons on wider screens */
+    .prev {
+        display: block;
+        top: 50%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .next {
+        display: block;
+        top: 50%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+        right: 0.5rem;
+    }
+    .right-scroll {
+        color: black;
+    }
+
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
+    }
+}
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    .card-view {
+        margin-top: 50px;
+    }
+    /* Hide scroll buttons on wider screens */
+    .prev{
+        display: block;
+        top: 73%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+    .next {
+        display: block;
+        top: 73%;
+        z-index: 1000;
+        padding: 10px 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+        right: 8rem;
+    }
+    .right-scroll {
+        color: black;
+    }
+    .right-scroll-div {
+        margin-top: 11px;
+        font-style: italic;
+        font-size: 12px;
+    }
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+   
+    .card {
+        width: 30%;
+    }
+    .card-view {
+        margin-top: 10rem;
+    }
+    /* Hide scroll buttons on wider screens */
+    .prev,
+    .next {
+        display: none;
+        position: fixed;
+        top: 81%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px 14px;
+        font-size: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        /* left: 0rem; */
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .next {
+        right: 10px;
+    }
+    .right-scroll-div{
+       display:none;
+    }
+}
+
+/*// X-Large devices (large desktops, 1200px and up)
+*/ @media (min-width: 1200px) {
+    
+    .card {
+        width: 30%;
+    }
+    .card-view {
+        margin-top: 3rem;
+    }
+    /* Hide scroll buttons on wider screens */
+    .prev,
+    .next {
+        display: none;
+        position: fixed;
+        top: 81%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px 14px;
+        font-size: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        /* left: 0rem; */
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .next {
+        right: 10px;
+    }
+    .right-scroll-div {
+        display: none;
+    }
+}
+
+/*// XX-Large devices (larger desktops, 1400px and up)*/
+@media (min-width: 1400px) {
+    .card-text {
+       /* display: flex;*/
+        margin-top: 20px;
+    }
+    .card {
+        width: 30%;
+    }
+    .card-view {
+        margin-top: 3rem;
+    }
+    /* Hide scroll buttons on wider screens */
+    .prev,
+    .next {
+        display: none;
+        position: fixed;
+        top: 81%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px 14px;
+        font-size: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        /* left: 0rem; */
+        font-size: 25px;
+        background: transparent;
+        text-decoration: none;
+        color: orange;
+        font-weight: bold;
+    }
+
+    .next {
+        right: 10px;
+    }
+    .right-scroll-div {
+        display: none;
+    }
+}
