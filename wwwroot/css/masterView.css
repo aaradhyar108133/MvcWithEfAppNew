@@ -76,31 +76,48 @@ input:-ms-input-placeholder {
     color: #e8b008;
     font-weight: bold;
 }
-/*.toggle {
-    background: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: right;
-    align-items: right;
-}
-.toggle-btn {
-    background: rgba(0, 0, 0, 0.2);*/ /* blue gradient matching table */
-    /*color: #fff;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: background 0.3s ease;
-    margin-top: 10px;
-    backdrop-filter: blur(10px);
+
+.password-wrapper {
+    position: relative;
 }
 
-    .toggle-btn:hover {
-        background: linear-gradient(to right, #5e6c79, #a3adbb);
-        backdrop-filter: blur(10px);
-    }*/
+    .password-wrapper input {
+        padding-right: 40px; /* Space for the icon */
+    }
+
+/* Custom eye icon styling */
+.password-container {
+    position: relative;
+}
+
+    .password-container input {
+        padding-right: 40px;
+    }
+
+.toggle-eye {
+    position: absolute;
+    top: 32%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    float: right;/* Adjust if needed */
+}
+.fa-solid fa-eye-slash {
+    float: right;
+    top: -10px;
+}
+/* Hide browser default reveal icon */
+input::-ms-reveal,
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-clear-button,
+input::-webkit-password-toggle-button {
+    display: none !important;
+}
+
+
+
 
 /*// Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {
