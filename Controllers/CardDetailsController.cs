@@ -29,6 +29,13 @@ namespace CardPayment.Controllers
 
             return View(mainModel);
         }
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
 
+            return RedirectToAction("Login", "Login");
+
+        }
     }
 }
