@@ -143,13 +143,13 @@
 										<div style="width: 60%;">
 											Current Balance:
 										</div>
-										<div style="width: 25%;text-align: left;">
+										<div style="width: 25%;text-align: left;font-size:1.1rem">
 											@Model.lCardTempdetData[0].BALAMT
 										</div>
 									</div>
 									<div class="card-text-div" style="display: flex;justify-content: space-between;margin: 15px 0px 10px 0px;">
 										<div style="width: 60%;">
-											<input type="text" id="amtInput" inputmode="numeric" style="padding: 5px 15px;font-size: 15px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the Recharge Amount" />
+											<input type="text" id="amtInput" inputmode="numeric" style="padding: 7px 15px;font-size: 13px;" pattern="[0-9]*" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" placeholder="Enter the Recharge Amount" />
 										</div>
 										<div style="width: 25%;text-align: left;">
 											<button id="paySubmitBtn" class="disable-pay-btn" onclick="openOverlay()" style="padding: 5px 15px 5px 15px;font-size: 15px;" disabled>
