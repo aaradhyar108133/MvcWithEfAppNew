@@ -6,7 +6,10 @@
 html {
     font-size: 14px;
 }
-
+.d-flex {
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -195,6 +198,30 @@ body {
 }
 /*// Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {
+    .d-flex {
+        margin-top: 5rem;
+    }
+    .header-nav-body {
+        padding: 5px;
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%) !important;
+    }
+
+        .header-nav-body .container-fluid {
+            padding: 0px 25px 0px 25px;
+        }
+
+            .header-nav-body .container-fluid .header-img img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+            }
     /* Hide scroll buttons on wider screens */
     .prev {
         display: block;
@@ -239,6 +266,30 @@ body {
 
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
+    .d-flex {
+        margin-top: 5rem;
+    }
+    .header-nav-body {
+        padding: 5px;
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%) !important;
+    }
+
+        .header-nav-body .container-fluid {
+            padding: 0px 25px 0px 25px;
+        }
+
+            .header-nav-body .container-fluid .header-img img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+            }
     /* Hide scroll buttons on wider screens */
     .prev {
         display: block;
@@ -282,6 +333,32 @@ body {
 }
 
 @media only screen and (max-width: 414px) {
+}
+
+     .d-flex {
+        margin-top: 5rem;
+     }
+    .header-nav-body {
+        
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%) !important;
+    }
+
+        .header-nav-body .container-fluid {
+            padding: 0px 10px 0px 10px;
+        }
+
+            .header-nav-body .container-fluid .header-img img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 14px;
+                font-weight: bold;
+            }
     /* Hide scroll buttons on wider screens */
     .prev {
         display: block;
@@ -325,6 +402,30 @@ body {
 }
 /*// Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
+    .d-flex {
+        margin-top: 5rem;
+    }
+    .header-nav-body {
+        padding: 5px;
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%) !important;
+    }
+
+        .header-nav-body .container-fluid {
+            padding: 0px 25px 0px 25px;
+        }
+
+            .header-nav-body .container-fluid .header-img img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+            }
     .card-view {
         margin-top: 50px;
     }
@@ -370,7 +471,30 @@ body {
 
 /*// Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
-   
+    .d-flex {
+        margin-top: 5rem;
+    }
+    .header-nav-body {
+        padding: 5px;
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%) !important;
+    }
+
+        .header-nav-body .container-fluid {
+            padding: 0px 25px 0px 25px;
+        }
+
+            .header-nav-body .container-fluid .header-img img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+            }
     .card {
         width: 45%;
     }
@@ -410,7 +534,30 @@ body {
 
 /*// X-Large devices (large desktops, 1200px and up)
 */ @media (min-width: 1200px) {
-    
+    .d-flex {
+        margin-top: 5rem;
+    }
+    .header-nav-body {
+        padding: 5px;
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%)!important;
+    }
+
+        .header-nav-body .container-fluid {
+            padding: 0px 25px 0px 25px;
+        }
+
+            .header-nav-body .container-fluid .header-img img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+            }
     .card {
         width: 45%;
     }
@@ -450,8 +597,29 @@ body {
 
 /*// XX-Large devices (larger desktops, 1400px and up)*/
 @media (min-width: 1400px) {
+    .d-flex {
+        margin-top: 5rem;
+    }
+    .header-nav-body {
+        padding: 5px;
+        background: linear-gradient(135deg, #b489df, #5cc1f4, #b489df);
+        box-shadow: 0 15px 40px 0 rgb(0 0 0 / 18%)!important;
+    }
+        .header-nav-body .container-fluid {
+            padding: 0px 25px 0px 25px;
+        }
+            .header-nav-body .container-fluid .header-img img {
+                width: 100px;
+                height: 100px;
+            }
+            .header-nav-body .container-fluid .header-text p {
+                color: black;
+                text-align: right;
+                font-size: 20px;
+                font-weight: bold;
+            }
     .card-text {
-       /* display: flex;*/
+        /* display: flex;*/
         margin-top: 20px;
     }
     .card {
