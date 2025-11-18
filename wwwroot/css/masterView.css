@@ -18,7 +18,12 @@ body {
     background-repeat:no-repeat;
 }
 
-
+@media (min-width: 992px) {
+    .header-text {
+        flex: 0 0 auto;
+        width: auto;
+    }
+}
 
 .login-glass {
     background: rgba(255, 255, 255, 0.1);
